@@ -1,12 +1,6 @@
-stages:
-  - postman-test
-
-postman-test:
-  stage: postman-test
-  image: wojciechzurek/newman-ci
-  script:
-    - newman run NFA - Health checks CPD.postman_collection.json -e  path/to/environments.json --reporters cli,html --reporter-html-export newman-results.html --color
-  artifacts:
-    when: always
-    paths:
-      - newman-results.html
+newman_tests:
+    image:
+        name: postman/newman_alpine33
+        entrypoint: [""]
+    script:
+        - newman --version
