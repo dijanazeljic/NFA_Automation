@@ -1,11 +1,9 @@
 stages:
-    - test
+- some_stages
+- postman
 
-postman_tests:
-    stage: test
-    image: 
-        name: postman/newman_alpine33
-        entrypoint: [""]
-    script:
-        - newman --version
-        
+postman_job:
+  stage: postman
+  image: wojciechzurek/newman-ci
+  script:
+  - newman --version
