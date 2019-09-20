@@ -6,6 +6,12 @@ postman_tests:
     image: 
         name: postman/newman_alpine33
         entrypoint: [""]
+        postman_job:
+  before_script:
+  - apt-get update -qq && apt-get install -y -qq curl
+  - curl -sL https://deb.nodesource.com/setup_8.x | bash -
+  - apt-get install -y nodejs
+  - npm install newman -g
     script:
         - newman --version
         - npm install -g newman-reporter-html
