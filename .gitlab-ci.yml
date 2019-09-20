@@ -1,11 +1,12 @@
 stages:
-- some_stages
-- postman
+  - postman-test
 
-  stage: postman
-  before_script:
-  - apt-get update -qq && apt-get install -y -qq curl
-  - curl -sL https://deb.nodesource.com/setup_8.x | bash -
-  - apt-get install -y nodejs
-  - npm install newman -g
-  
+postman-test:
+  stage: postman-test
+  image: wojciechzurek/newman-ci
+  script:
+    - newman run NFA - Health checks CPD.postman_collection.json -e  path/to/environments.json --reporters cli,html --reporter-html-export newman-results.html --color
+  artifacts:
+    when: always
+    paths:
+      - newman-results.html
