@@ -6,7 +6,6 @@ postman_tests:
     image: 
         name: postman/newman_alpine33
         entrypoint: [""]
-        postman_job:
     script:
         - newman --version
         
