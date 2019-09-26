@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "4562809c-949a-4b8a-8afa-6c63ff39ce9e",
-		"name": "NFA - Health checks CPD Copy",
+		"_postman_id": "888a7fbc-70b1-4493-b3a1-574fb3802cf2",
+		"name": "NFA - Health checks Add to list (People)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -86,6 +86,847 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "ResourcesJobs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "da7cb6f2-e6c8-4db3-8a0a-0a91b9a57491",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    ",
+							"    var jsonData = pm.response.json();",
+							"let pero = pm.environment.get(\"RecognizeJOBID\");",
+							"console.log(pero);",
+							"var recjobID = pm.environment.get(\"RecognizeJOBID\");",
+							"console.log(\"rec\",recjobID);",
+							"var modjobID = pm.environment.get(\"ModelJobID\");",
+							"console.log(\"mod\", modjobID);",
+							"var prejobID = pm.environment.get(\"PredictJobID\");",
+							"console.log(\"pred\",prejobID);",
+							"var recommjobID = pm.environment.get(\"RecommendJobID\");",
+							"console.log(\"recomm\",recommjobID);",
+							"    ",
+							"    if(recjobID)",
+							"    {",
+							"         setTimeout(function(){",
+							"          console.log(\"Sleeping for 60 seconds before next request.\");",
+							"  }, 60000);",
+							"    let targetlistID = jsonData.results.jobs[0].targetListId;",
+							"    pm.environment.set(\"RecognizeTargetList\", targetlistID);",
+							"    pm.environment.unset(\"RecognizeJOBID\");",
+							"    postman.setNextRequest(\"actionCreateModel\");",
+							"    }",
+							"    else if(modjobID)",
+							"    {",
+							"    setTimeout(function(){",
+							"          console.log(\"Sleeping for 60 seconds before next request.\");",
+							"  }, 60000);",
+							"    let ModID = jsonData.results.jobs[0].modelId;",
+							"    pm.environment.set(\"ModelID\",ModID);",
+							"    let pero = pm.environment.get(\"ModelID\");",
+							"console.log(\"PERO\",pero);",
+							"    pm.environment.unset(\"ModelJobID\");",
+							"    postman.setNextRequest(\"actionPredict\");",
+							"    ",
+							"",
+							"    }",
+							"    else if(prejobID)",
+							"    {",
+							"       ",
+							"   let PredTargetlistID = jsonData.results.jobs[0].targetListId;",
+							"    pm.environment.set(\"PredictTargetList\", PredTargetlistID);",
+							"     let peroPL = pm.environment.get(\"PredictTargetList\");",
+							"console.log(\"PEROPL\",peroPL);",
+							"    pm.environment.unset(\"PredictJobID\");",
+							"    postman.setNextRequest(\"actionCreateModel\");",
+							"    ",
+							"    }",
+							"    else if(recommjobID)",
+							"    {",
+							"   let recommTargetlistID = jsonData.targetListId;",
+							"   if(recommTargetlistID !=null){",
+							"       pm.environment.set(\"RecommendTargetList\", recommTargetlistID);",
+							"        postman.setNextRequest(\"actionCreateModel\");",
+							"       ",
+							"   }else{",
+							"       postman.setNextRequest(\"actionexport\");",
+							"   }",
+							"    ",
+							"    pm.environment.unset(\"RecommendJobID\");",
+							"    }",
+							"    else{",
+							"        postman.setNextRequest(null);",
+							"    }",
+							"",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d44e4780-448d-4da8-827a-faa0c3bb0f34",
+						"exec": [
+							"var recjobID = pm.environment.get(\"RecognizeJOBID\");",
+							"console.log(\"rec\",recjobID);",
+							"var modjobID = pm.environment.get(\"ModelJobID\");",
+							"console.log(\"mod\", modjobID);",
+							"var prejobID = pm.environment.get(\"PredictJobID\");",
+							"console.log(\"pred\", prejobID);",
+							"var recommjobID = pm.environment.get(\"RecommendJobID\");",
+							"console.log(\"recomm\",recommjobID);",
+							"",
+							"if(recjobID) {",
+							"     setTimeout(function(){",
+							"          console.log(\"Sleeping for 60 seconds before next request.\");",
+							"  }, 120000);",
+							"   pm.environment.set(\"id\",\"{{RecognizeJOBID}}\");",
+							"  ",
+							"}else if(modjobID)",
+							"{",
+							"     setTimeout(function(){",
+							"          console.log(\"Sleeping for 60 seconds before next request.\");",
+							"  }, 120000);",
+							"     pm.environment.set(\"id\",\"{{ModelJobID}}\");",
+							"}",
+							"else if(prejobID)",
+							"{",
+							"    setTimeout(function(){",
+							"          console.log(\"Sleeping for 60 seconds before next request.\");",
+							"  }, 120000);",
+							"     pm.environment.set(\"id\",\"{{PredictJobID}}\");",
+							"}",
+							"else if(recommjobID)",
+							"{",
+							"     pm.environment.set(\"id\",\"{{RecommendJobID}}\");",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{API_URL}}/resources/jobs/?id={{id}}",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"resources",
+						"jobs",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "3",
+							"disabled": true
+						},
+						{
+							"key": "sourceListId",
+							"value": "cd8a71c0-8e79-11e9-af64-4f46cb2b6517",
+							"disabled": true
+						},
+						{
+							"key": "targetListId",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "modelId",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "category",
+							"value": "export",
+							"disabled": true
+						},
+						{
+							"key": "id",
+							"value": "{{id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "actionCreateModel",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "01660469-e52e-4256-b6ba-d7e8c422d527",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.requestId).to.not.be.null;",
+							"});",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"   ",
+							"   var recTL = pm.environment.get(\"RecognizeTargetList\");",
+							"console.log(\"rec\",recTL);",
+							"var recommTL = pm.environment.get(\"RecommendTargetList\");",
+							"console.log(\"mod\", recommTL);",
+							"var predTL = pm.environment.get(\"PredictTargetList\");",
+							"console.log(predTL);",
+							"",
+							"",
+							" if(recTL)",
+							"    {",
+							"    var jsonData = pm.response.json();",
+							"    let ModJobID = jsonData.jobId;",
+							"    pm.environment.set(\"ModelJobID\",ModJobID);",
+							"    let exportrecognizeID = pm.environment.get(\"RecognizeTargetList\");",
+							"    pm.environment.set(\"EXPRecognizeID\",exportrecognizeID);",
+							"    pm.environment.unset(\"RecognizeTargetList\");",
+							"    postman.setNextRequest(\"ResourcesJobs\");",
+							"",
+							"    ",
+							"    }",
+							"    else if(recommTL)",
+							"    {",
+							"    var jsonData = pm.response.json();",
+							"    let ModJobIDR = jsonData.jobId;",
+							"    pm.environment.set(\"ModelJobIDR\",ModJobID);",
+							"    let exportrecommendID = pm.environment.get(\"RecommendTargetList\");",
+							"    pm.environment.set(\"EXPRecommendID\",exportrecommendID);",
+							"    pm.environment.unset(\"RecommendTargetList\");",
+							"    postman.setNextRequest(\"actionExportRecommend\");",
+							"    ",
+							"    }",
+							"    else if(predTL)",
+							"    {",
+							"   var jsonData = pm.response.json();",
+							"    let ModJobID = jsonData.jobId;",
+							"    pm.environment.set(\"ModelJobIDP\",ModJobID);",
+							"    let exportpredictID = pm.environment.get(\"PredictTargetList\");",
+							"    pm.environment.set(\"EXPPredictID\",exportpredictID);",
+							"    pm.environment.unset(\"PredictTargetList\");",
+							"    postman.setNextRequest(\"actionRecommend\");",
+							"   ",
+							"    }",
+							"    else{",
+							"        postman.setNextRequest(null);",
+							"    }",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "bf5e35a9-b7e4-4dbf-a38d-7220ae5c29de",
+						"exec": [
+							"var recID = pm.environment.get(\"RecognizeTargetList\");",
+							"var recommID = pm.environment.get(\"RecommendTargetList\");",
+							"var predID = pm.environment.get(\"PredictTargetList\");",
+							"",
+							"if(recID)",
+							"{",
+							"     pm.environment.set(\"TargetList\",\"{{RecognizeTargetList}}\");",
+							"}",
+							"if(recommID)",
+							"{",
+							"     pm.environment.set(\"TargetList\",\"{{RecommendTargetList}}\");",
+							"}if(predID)",
+							"{",
+							"     pm.environment.set(\"TargetList\",\"{{PredictTargetList}}\");",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman.",
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{API_KEY}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"VladimirnewlistModel{{$timestamp}}\",\n    \"listId\":\"{{TargetList}}\",\n    \"pattern\":\"companies\",\n    \"purpose\": \"new_attendee\",\n    \"description\": \"same stuff\"\n}\n"
+				},
+				"url": {
+					"raw": "{{API_URL}}/action/createmodel",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"action",
+						"createmodel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "actionPredict",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9cce51a6-3e24-48f8-bc8e-3cdc57f38a4f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.requestId).to.not.be.null;",
+							"     let predJobID = jsonData.jobId;",
+							"    ",
+							"",
+							"pm.environment.set(\"PredictJobID\", predJobID);",
+							"postman.setNextRequest(\"ResourcesJobs\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7008504c-ba6f-47ca-ab61-dbb7f44b905d",
+						"exec": [
+							"let proveraliste = pm.environment.get(\"RecognizeTargetList\");",
+							"console.log(\"PL\",proveraliste);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman."
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"modelId\":\"{{ModelID}}\",\n    \"listId\": \"{{EXPRecognizeID}}\"\n}\n"
+				},
+				"url": {
+					"raw": "{{API_URL}}/action/predict",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"action",
+						"predict"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "actionRecommend",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1722de8e-443c-4b92-a520-d7b69ed70d4b",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.requestId).to.not.be.null;",
+							"     let recommJobID = jsonData.jobId;",
+							"    ",
+							"",
+							"pm.environment.set(\"RecommendJobID\", recommJobID);",
+							"postman.setNextRequest(\"ResourcesJobs\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"modelId\":\"{{ModelID}}\",\"expansionFactor\": 1.1,\"maxCount\":10}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/action/recommend",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"action",
+						"recommend"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "actionexport",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bc46de77-74db-43c5-b738-b469bc7fe217",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"});",
+							"",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"",
+							"    var jsonData = pm.response.json();",
+							"    let exportID = jsonData.jobId;",
+							"    pm.environment.set(\"EXPRecID\", exportID);",
+							"   postman.setNextRequest(\"actionExportPredict\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6d2fde3e-759a-47e9-8d5d-b9b95db57bf3",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman."
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"listId\": \"{{EXPRecognizeID}}\",\n\t\"pattern\": \"companies\"\n\t\n\t}\n\t\n\n\n\t\t\n"
+				},
+				"url": {
+					"raw": "{{API_URL}}/action/export/",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"action",
+						"export",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "actionExportPredict",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bc46de77-74db-43c5-b738-b469bc7fe217",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"});",
+							"",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.requestId).to.not.be.null;",
+							"    let exportJID = jsonData.jobId;",
+							"    ",
+							"",
+							"pm.environment.set(\"PredictEXID\", exportJID);",
+							"postman.setNextRequest(\"actionExportRecommend\");",
+							"",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman."
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"listId\": \"{{EXPPredictID}}\",\n\t\"pattern\": \"companies\"\n\t\n\t}\n\t\n\n\n\t\t\n"
+				},
+				"url": {
+					"raw": "{{API_URL}}/action/export/",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"action",
+						"export",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "actionExportRecommend",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bc46de77-74db-43c5-b738-b469bc7fe217",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"});",
+							"",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.requestId).to.not.be.null;",
+							"    let exID = jsonData.jobId;",
+							"pm.environment.set(\"ReccomendEXID\", exID);",
+							"",
+							"",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman."
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"listId\": \"{{EXPRecommendID}}\",\n\t\"pattern\": \"companies\"\n\t\n\t}\n\t\n\n\n\t\t\n"
+				},
+				"url": {
+					"raw": "{{API_URL}}/action/export/",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"action",
+						"export",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "action - Count Entities",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d823a02d-a311-4771-a8ec-c0415c9c88d1",
+						"exec": [
+							"var CEfilters = pm.environment.get(\"CEfilters\");",
+							"if (!CEfilters) {",
+							"   CEfilters = [\"{ range(company.size, 0, 5) }\", \"{ has(company.industry) }\", \"{ isIn(company.country, 'United States') }\"];",
+							"}",
+							"console.log(\"CEprfil\",CEfilters);",
+							"var CEcurrentFilter = CEfilters.shift();",
+							"pm.environment.set('CEfilter', CEcurrentFilter);",
+							"pm.environment.set('CEfilters', CEfilters);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "1276b03d-9898-457b-bd2b-087df5f113d7",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    var counter = pm.globals.get(\"counter\");",
+							"    console.log(counter);",
+							"",
+							"    var CEfilter = pm.environment.get(\"CEfilter\");",
+							"    console.log(\"CEfilter\",CEfilter);",
+							"    if (CEfilter && CEfilter.length > 0) {",
+							"    let ceJobID = jsonData.totalCount;",
+							"    pm.environment.set(\"CEJOBID\" + counter, ceJobID);",
+							"    let CEJOBID= pm.environment.get(\"CEJOBID\" + counter);",
+							"    console.log(CEJOBID);",
+							"    postman.setNextRequest(\"action - Count Entities\");",
+							"    console.log(\"COUNTER: \" + counter++);",
+							"    pm.globals.set(\"counter\", counter++);",
+							"   ",
+							"} else {",
+							"  ",
+							"}",
+							"   ",
+							"    ",
+							"",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman."
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"filter\": \"{{CEfilter}}\"\n}\n"
+				},
+				"url": {
+					"raw": "{{API_URL}}/action/countEntities",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"action",
+						"countEntities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "action - Distribution",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9cce51a6-3e24-48f8-bc8e-3cdc57f38a4f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    var jsonData = pm.response.json();",
+							"         let responselist = jsonData.distribution;",
+							"    let Data = jsonData.distribution.State.Florida;",
+							"   ",
+							"",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "df407e68-f606-4881-9811-56c28eef6321",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman."
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"listId\": \"{{EXPRecognizeID}}\"\n}\n"
+				},
+				"url": {
+					"raw": "{{API_URL}}/action/distribution",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"action",
+						"distribution"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
@@ -112,25 +953,25 @@
 	],
 	"variable": [
 		{
-			"id": "d7e84bc1-c034-43c5-a237-b88588fa2118",
+			"id": "e001f56b-1bdb-4a84-90fb-69414dd664ad",
 			"key": "API_URL",
-			"value": "https://api.uat.node-ops.net",
+			"value": "https://es29twi3ed.execute-api.us-west-2.amazonaws.com/qa01",
 			"type": "string"
 		},
 		{
-			"id": "74c4481d-0dfe-4ce8-9d3b-cb24bc3132e9",
+			"id": "72977f7d-3666-4e9c-84ef-1913e366bed1",
 			"key": "API_KEY",
-			"value": "sA5GcUebJY2dLRP60VsDj6mG5l3vadli8HAOg47N",
+			"value": "9cOkL5LyOy6lHXFTyXNvv7iGlpMLPBuO2Vhuy0N8",
 			"type": "string"
 		},
 		{
-			"id": "15dca05d-e410-4cb8-b18c-256fc6b537ed",
+			"id": "e1fff76d-58f3-4d8f-955c-374f503df451",
 			"key": "API_KEY_NEW",
 			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
 			"type": "string"
 		},
 		{
-			"id": "032e4350-f67d-45e8-841c-4d1e4cb44656",
+			"id": "0494cf9c-c66a-4bea-a774-2f2b7341bbb6",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"
