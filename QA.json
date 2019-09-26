@@ -1,7 +1,7 @@
 {
   "_": {
     "postman_variable_scope": "environment",
-    "postman_exported_at": "2019-09-26T09:02:27.983Z",
+    "postman_exported_at": "2019-09-26T10:02:08.992Z",
     "postman_exported_using": "Newman/4.5.4"
   },
   "id": "16d27d3a-c6bf-40b7-ba2c-3c296dbe36a2",
@@ -14,11 +14,11 @@
     },
     {
       "type": "any",
-      "value": "a24ec8c0-7de8-443e-8f46-bf80fb1a702e",
+      "value": "6e7e4c91-12aa-4de8-a51f-6cc687a04c04",
       "key": "RecognizeTargetList"
     }
   ],
   "_postman_variable_scope": "environment",
-  "_postman_exported_at": "2019-09-26T09:05:31.213Z",
+  "_postman_exported_at": "2019-09-26T10:05:12.334Z",
   "_postman_exported_using": "Newman/4.5.4"
 }
