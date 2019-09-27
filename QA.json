@@ -1,24 +1,8 @@
 {
-  "_": {
-    "postman_variable_scope": "environment",
-    "postman_exported_at": "2019-09-26T10:02:08.992Z",
-    "postman_exported_using": "Newman/4.5.4"
-  },
-  "id": "16d27d3a-c6bf-40b7-ba2c-3c296dbe36a2",
-  "name": "QA",
-  "values": [
-    {
-      "type": "any",
-      "value": "{{RecognizeJOBID}}",
-      "key": "id"
-    },
-    {
-      "type": "any",
-      "value": "6e7e4c91-12aa-4de8-a51f-6cc687a04c04",
-      "key": "RecognizeTargetList"
-    }
-  ],
-  "_postman_variable_scope": "environment",
-  "_postman_exported_at": "2019-09-26T10:05:12.334Z",
-  "_postman_exported_using": "Newman/4.5.4"
+	"id": "16d27d3a-c6bf-40b7-ba2c-3c296dbe36a2",
+	"name": "QA",
+	"values": [],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2019-09-27T07:05:08.779Z",
+	"_postman_exported_using": "Postman/6.7.1"
 }
