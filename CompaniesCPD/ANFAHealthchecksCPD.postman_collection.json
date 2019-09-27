@@ -153,6 +153,8 @@
 							"    {",
 							"   let status = jsonData.results.jobs[0].status;",
 							"    pm.environment.set(\"status\",status);",
+							"   statuslog= pm.environment.get(\"status\");",
+							"   console.log(\"status\", statuslog);",
 							"   if(status === \"error\"){",
 							"          postman.setNextRequest(\"actionexport\");",
 							"       ",
@@ -876,25 +878,25 @@
 	],
 	"variable": [
 		{
-			"id": "23490f06-6da2-49cf-8838-4ed2a62bd55e",
+			"id": "529aa34a-91e7-4c0f-b8c7-713e1b935786",
 			"key": "API_URL",
 			"value": "https://api.uat.node-ops.net",
 			"type": "string"
 		},
 		{
-			"id": "5c9f0bc7-8b64-495c-8d89-d31c29c0b9a0",
+			"id": "4303974f-6804-4379-8045-cfafa150c384",
 			"key": "API_KEY",
 			"value": "sA5GcUebJY2dLRP60VsDj6mG5l3vadli8HAOg47N",
 			"type": "string"
 		},
 		{
-			"id": "1c6a95cb-2fa2-4333-bfd5-8f893e0b6c9e",
+			"id": "f472a4bb-e006-4452-ab5a-03c90bff0d7c",
 			"key": "API_KEY_NEW",
 			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
 			"type": "string"
 		},
 		{
-			"id": "aacd49f8-d9ac-4be1-9eb1-f4d464d6efc3",
+			"id": "2f603963-f08e-4483-a6d1-ca53aa244935",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"
