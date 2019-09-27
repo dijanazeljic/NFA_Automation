@@ -328,8 +328,8 @@
 							"    }",
 							"    else if(recommTL)",
 							"    {",
-							"    var jsonData = pm.response.json();",
-							"    let ModJobIDR = jsonData.jobId;",
+							"    var jsonData2 = pm.response.json();",
+							"    let ModJobIDR = jsonData2.jobId;",
 							"    pm.environment.set(\"ModelJobIDR\",ModJobID);",
 							"    let exportrecommendID = pm.environment.get(\"RecommendTargetList\");",
 							"    pm.environment.set(\"EXPRecommendID\",exportrecommendID);",
@@ -339,8 +339,8 @@
 							"    }",
 							"    else if(predTL)",
 							"    {",
-							"   var jsonData = pm.response.json();",
-							"    let ModJobID = jsonData.jobId;",
+							"   var jsonData1 = pm.response.json();",
+							"    let ModJobID = jsonData1.jobId;",
 							"    pm.environment.set(\"ModelJobIDP\",ModJobID);",
 							"    let exportpredictID = pm.environment.get(\"PredictTargetList\");",
 							"    pm.environment.set(\"EXPPredictID\",exportpredictID);",
@@ -958,25 +958,25 @@
 	],
 	"variable": [
 		{
-			"id": "ccb7936e-609d-4682-8b17-801edaa7e28c",
+			"id": "3f5751f1-427b-41f2-9ba8-cfd3580f5052",
 			"key": "API_URL",
 			"value": "https://api.uat.node-ops.net",
 			"type": "string"
 		},
 		{
-			"id": "409d315c-8bed-4931-b3cb-22b49bd2391c",
+			"id": "25d8484b-ef3e-486d-a70e-4a3fc45dfe6e",
 			"key": "API_KEY",
 			"value": "sA5GcUebJY2dLRP60VsDj6mG5l3vadli8HAOg47N",
 			"type": "string"
 		},
 		{
-			"id": "d090b758-1098-492d-bd3c-9a283883e6f3",
+			"id": "988fd900-af10-4a3f-97ee-372f35742313",
 			"key": "API_KEY_NEW",
 			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
 			"type": "string"
 		},
 		{
-			"id": "9b3e7c98-a807-47e0-83bd-8803ca461de8",
+			"id": "6122a281-b90a-45e8-8e78-3b13905852f5",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"
