@@ -21,7 +21,7 @@
 							"  setTimeout(function(){",
 							"          console.log(\"Sleeping for 3 seconds before next request.\");",
 							"  }, 3000);}",
-							"",
+							"pm.environment.clear();",
 							"});",
 							"",
 							"pm.test(\"JSON Checking for structure\", function () {",
@@ -958,25 +958,25 @@
 	],
 	"variable": [
 		{
-			"id": "3f5751f1-427b-41f2-9ba8-cfd3580f5052",
+			"id": "a87a90c4-4793-4c39-b845-418523d81080",
 			"key": "API_URL",
 			"value": "https://api.uat.node-ops.net",
 			"type": "string"
 		},
 		{
-			"id": "25d8484b-ef3e-486d-a70e-4a3fc45dfe6e",
+			"id": "e56a9312-2873-4375-82e9-ff90a5b2e726",
 			"key": "API_KEY",
 			"value": "sA5GcUebJY2dLRP60VsDj6mG5l3vadli8HAOg47N",
 			"type": "string"
 		},
 		{
-			"id": "988fd900-af10-4a3f-97ee-372f35742313",
+			"id": "9fefb86a-7ddd-4882-bc93-cd90f608016a",
 			"key": "API_KEY_NEW",
 			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
 			"type": "string"
 		},
 		{
-			"id": "6122a281-b90a-45e8-8e78-3b13905852f5",
+			"id": "a71d01b0-7ecd-4654-a277-e4a9fc5847a5",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"
