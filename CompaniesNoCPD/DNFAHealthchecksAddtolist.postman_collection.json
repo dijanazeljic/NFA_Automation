@@ -208,6 +208,9 @@
 							"}",
 							"else if(recommjobID)",
 							"{",
+							"     setTimeout(function(){",
+							"          console.log(\"Sleeping for 60 seconds before next request.\");",
+							"  }, 120000);",
 							"     pm.environment.set(\"id\",\"{{RecommendJobID}}\");",
 							"}"
 						],
@@ -786,9 +789,6 @@
 					"script": {
 						"id": "1276b03d-9898-457b-bd2b-087df5f113d7",
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
 							"pm.test(\"JSON Checking for structure\", function () {",
 							"    var jsonData = pm.response.json();",
 							"    var counter = pm.globals.get(\"counter\");",
@@ -797,6 +797,9 @@
 							"    var CEfilter = pm.environment.get(\"CEfilter\");",
 							"    console.log(\"CEfilter\",CEfilter);",
 							"    if (CEfilter && CEfilter.length > 0) {",
+							"        pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
 							"    let ceJobID = jsonData.totalCount;",
 							"    pm.environment.set(\"CEJOBID\" + counter, ceJobID);",
 							"    let CEJOBID= pm.environment.get(\"CEJOBID\" + counter);",
@@ -806,7 +809,9 @@
 							"    pm.globals.set(\"counter\", counter++);",
 							"   ",
 							"} else {",
-							"  ",
+							"  pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
 							"}",
 							"   ",
 							"    ",
@@ -953,25 +958,25 @@
 	],
 	"variable": [
 		{
-			"id": "09de0319-0cb9-4293-910a-26759020e58a",
+			"id": "ccb7936e-609d-4682-8b17-801edaa7e28c",
 			"key": "API_URL",
 			"value": "https://api.uat.node-ops.net",
 			"type": "string"
 		},
 		{
-			"id": "8942e92d-c779-4502-884d-98d292ff4a54",
+			"id": "409d315c-8bed-4931-b3cb-22b49bd2391c",
 			"key": "API_KEY",
 			"value": "sA5GcUebJY2dLRP60VsDj6mG5l3vadli8HAOg47N",
 			"type": "string"
 		},
 		{
-			"id": "eae28956-c5a9-4385-9ba5-c82107109097",
+			"id": "d090b758-1098-492d-bd3c-9a283883e6f3",
 			"key": "API_KEY_NEW",
 			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
 			"type": "string"
 		},
 		{
-			"id": "4105a3bc-0be9-4198-8458-c5bb3dec4a6e",
+			"id": "9b3e7c98-a807-47e0-83bd-8803ca461de8",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"
