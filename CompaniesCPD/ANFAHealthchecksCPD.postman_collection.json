@@ -151,6 +151,7 @@
 							"    }",
 							"    else if(recommjobID)",
 							"    {",
+							"     RJlog= pm.environment.get(recommjobID);",
 							"   let status = jsonData.results.jobs[0].status;",
 							"    pm.environment.set(\"status\",status);",
 							"   statuslog= pm.environment.get(\"status\");",
@@ -878,25 +879,25 @@
 	],
 	"variable": [
 		{
-			"id": "529aa34a-91e7-4c0f-b8c7-713e1b935786",
+			"id": "d33a875d-b44b-4502-9163-af73eba3441e",
 			"key": "API_URL",
 			"value": "https://api.uat.node-ops.net",
 			"type": "string"
 		},
 		{
-			"id": "4303974f-6804-4379-8045-cfafa150c384",
+			"id": "85aab751-230e-4a08-ab92-fabdb4bab031",
 			"key": "API_KEY",
 			"value": "sA5GcUebJY2dLRP60VsDj6mG5l3vadli8HAOg47N",
 			"type": "string"
 		},
 		{
-			"id": "f472a4bb-e006-4452-ab5a-03c90bff0d7c",
+			"id": "2955b3ed-a0ad-4be1-b757-b5f987e00b5b",
 			"key": "API_KEY_NEW",
 			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
 			"type": "string"
 		},
 		{
-			"id": "2f603963-f08e-4483-a6d1-ca53aa244935",
+			"id": "bf199b0e-fc10-45e4-85d5-3f82e9ec9aa8",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"
