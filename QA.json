@@ -1,8 +1,134 @@
 {
-	"id": "16d27d3a-c6bf-40b7-ba2c-3c296dbe36a2",
-	"name": "QA",
-	"values": [],
-	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2019-09-27T07:05:08.779Z",
-	"_postman_exported_using": "Postman/6.7.1"
+  "_": {
+    "postman_variable_scope": "environment",
+    "postman_exported_at": "2019-09-27T11:05:47.663Z",
+    "postman_exported_using": "Newman/4.5.4"
+  },
+  "id": "16d27d3a-c6bf-40b7-ba2c-3c296dbe36a2",
+  "name": "QA",
+  "values": [
+    {
+      "type": "any",
+      "value": "{{RecommendJobID}}",
+      "key": "id"
+    },
+    {
+      "type": "any",
+      "value": "{{PredictTargetList}}",
+      "key": "TargetList"
+    },
+    {
+      "type": "any",
+      "value": "9f2f6c78-7bb1-476c-8500-7e7e664ccd51",
+      "key": "EXPRecognizeID"
+    },
+    {
+      "type": "any",
+      "value": "ec0ee7df-50a7-4d52-8fd3-2c61ffd00091",
+      "key": "ModelID"
+    },
+    {
+      "type": "any",
+      "value": "f7290200-ab80-4950-b3ea-3c39f7cc9ea4",
+      "key": "ModelJobIDP"
+    },
+    {
+      "type": "any",
+      "value": "34773724-4943-40ad-9c63-f66b9f4615ac",
+      "key": "EXPPredictID"
+    },
+    {
+      "type": "any",
+      "value": "error",
+      "key": "status"
+    },
+    {
+      "type": "any",
+      "value": "e08cba60-de59-4a60-8164-dd8dd6b2369b",
+      "key": "EXPRecID"
+    },
+    {
+      "type": "any",
+      "value": "fd480cf2-b4e5-4cf7-9552-d55b6bfac293",
+      "key": "PredictEXID"
+    },
+    {
+      "type": "any",
+      "value": null,
+      "key": "CEfilter"
+    },
+    {
+      "type": "any",
+      "value": [],
+      "key": "CEfilters"
+    },
+    {
+      "type": "any",
+      "value": 9778670,
+      "key": "CEJOBIDundefined"
+    },
+    {
+      "type": "any",
+      "value": 31620532,
+      "key": "CEJOBIDnull"
+    },
+    {
+      "type": "any",
+      "value": 28039394,
+      "key": "CEJOBID1"
+    },
+    {
+      "type": "any",
+      "value": null,
+      "key": "EXPfilter"
+    },
+    {
+      "type": "any",
+      "value": [],
+      "key": "EXPfilters"
+    },
+    {
+      "type": "any",
+      "value": "1814b25e-c0c6-4ba0-9362-3d4da379f997",
+      "key": "EXPJOBID"
+    },
+    {
+      "type": "any",
+      "value": "STROBEL AND HUNTER, INC",
+      "key": "cusData"
+    },
+    {
+      "type": "any",
+      "value": null,
+      "key": "STLfilter"
+    },
+    {
+      "type": "any",
+      "value": [],
+      "key": "STLfilters"
+    },
+    {
+      "type": "any",
+      "value": "f821990b-32a1-4a0c-812a-14934ada1e24",
+      "key": "STLJOBIDundefined"
+    },
+    {
+      "type": "any",
+      "value": "a66ddead-132a-49d8-b98f-0bdbaea8ff61",
+      "key": "STLJOBIDnull"
+    },
+    {
+      "type": "any",
+      "value": "311eca57-2da9-4c42-8922-5df579cd6733",
+      "key": "STLJOBID1"
+    },
+    {
+      "type": "any",
+      "value": null,
+      "key": "ReccomendEXID"
+    }
+  ],
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2019-09-27T11:15:57.657Z",
+  "_postman_exported_using": "Newman/4.5.4"
 }
