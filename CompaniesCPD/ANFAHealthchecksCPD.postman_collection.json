@@ -714,9 +714,6 @@
 					"script": {
 						"id": "1276b03d-9898-457b-bd2b-087df5f113d7",
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
 							"pm.test(\"JSON Checking for structure\", function () {",
 							"    var jsonData = pm.response.json();",
 							"    var counter = pm.globals.get(\"counter\");",
@@ -724,7 +721,9 @@
 							"",
 							"    var CEfilter = pm.environment.get(\"CEfilter\");",
 							"    console.log(\"CEfilter\",CEfilter);",
-							"    if (CEfilter && CEfilter.length > 0 || \"\") {",
+							"    if (CEfilter && CEfilter.length > 0) {",
+							"    pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);});",
 							"    let ceJobID = jsonData.totalCount;",
 							"    pm.environment.set(\"CEJOBID\" + counter, ceJobID);",
 							"    let CEJOBID= pm.environment.get(\"CEJOBID\" + counter);",
@@ -734,7 +733,9 @@
 							"    pm.globals.set(\"counter\", counter++);",
 							"   ",
 							"} else {",
-							"  ",
+							"  pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
 							"}",
 							"   ",
 							"    ",
@@ -881,25 +882,25 @@
 	],
 	"variable": [
 		{
-			"id": "50df435a-47a7-415a-9347-92a3d5ae2aeb",
+			"id": "ebe600a8-8971-4abd-9d9d-ff70ab17aad1",
 			"key": "API_URL",
 			"value": "https://api.uat.node-ops.net",
 			"type": "string"
 		},
 		{
-			"id": "acb9f0e1-e799-4b23-a1ff-53e0657f9e56",
+			"id": "ab8d5eb1-5e2c-4760-83a9-c082fb97d9f1",
 			"key": "API_KEY",
 			"value": "sA5GcUebJY2dLRP60VsDj6mG5l3vadli8HAOg47N",
 			"type": "string"
 		},
 		{
-			"id": "4ec5459c-a4e7-4e65-a00f-1dc845bff83f",
+			"id": "b1d81d88-8da9-46b3-80cd-b7c21fcc8d72",
 			"key": "API_KEY_NEW",
 			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
 			"type": "string"
 		},
 		{
-			"id": "abcc29c9-21dd-4123-b717-304ec81233cd",
+			"id": "9af9465d-e396-44e2-9781-c74d24283390",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"
