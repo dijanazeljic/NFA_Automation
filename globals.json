@@ -1,0 +1,39 @@
+{
+	"id": "6517ffd7-e7ce-4f73-8407-301f52ca48ea",
+	"values": [
+		{
+			"key": "counter",
+			"value": 43,
+			"enabled": true
+		},
+		{
+			"key": "model_people",
+			"value": "8c2cbcfd-4b8f-4659-8857-f2ae6e1468e1",
+			"enabled": true
+		},
+		{
+			"key": "model_companies",
+			"value": "57cee157-c899-4e6a-b8ae-3984712ecead",
+			"enabled": true
+		},
+		{
+			"key": "comp_list",
+			"value": "0af50936-9386-47d6-8c7f-786614eebe88",
+			"enabled": true
+		},
+		{
+			"key": "AddToList",
+			"value": "e3a23e03-e025-4f07-8c41-eeeb5651fc74",
+			"enabled": true
+		},
+		{
+			"key": "AddToListP",
+			"value": "51befb19-28ca-4374-a21e-a6b8c56de260",
+			"enabled": true
+		}
+	],
+	"name": "My Workspace Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2019-11-16T22:09:45.623Z",
+	"_postman_exported_using": "Postman/7.10.0"
+}
