@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "23f686df-07eb-49b1-a798-ee4e6a88f85a",
-		"name": "NFA - Health checks CPD (People)",
+		"_postman_id": "d4d7a0c9-1e92-432c-be80-39ccd29a8936",
+		"name": "Smoke test suite older models Person",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -143,21 +143,25 @@
 							"       ",
 							"   let PredTargetlistID = jsonData.results.jobs[0].targetListId;",
 							"    pm.environment.set(\"PredictTargetList\", PredTargetlistID);",
+							"    let ModID = jsonData.results.jobs[0].modelId;",
+							"    pm.environment.set(\"ModelID\",ModID);",
 							"     let peroPL = pm.environment.get(\"PredictTargetList\");",
 							"console.log(\"PEROPL\",peroPL);",
 							"    pm.environment.unset(\"PredictJobID\");",
-							"    postman.setNextRequest(\"actionCreateModel\");",
+							"    ",
 							"    ",
 							"    }",
 							"    else if(recommjobID)",
 							"    {",
-							"   let status = jsonData.results.jobs[0].status;",
-							"    pm.environment.set(\"status\",status);",
-							"   if(status === \"error\"){",
-							"          postman.setNextRequest(\"actionexport\");",
-							"       ",
-							"   }",
-							"     pm.environment.unset(\"RecommendJobID\");",
+							"         setTimeout(function(){",
+							"          console.log(\"Sleeping for 60 seconds before next request.\");",
+							"  }, 60000);",
+							"   let recommTargetlistID = jsonData.results.jobs[0].targetListId;",
+							"       pm.environment.set(\"RecommendTargetList\", recommTargetlistID);",
+							"       let peroRL = pm.environment.get(\"RecommendTargetList\");",
+							"       console.log(\"RecommendTargetList\",peroRL);",
+							"    ",
+							"    pm.environment.unset(\"RecommendJobID\");",
 							"    }",
 							"    else{",
 							"        postman.setNextRequest(null);",
@@ -205,9 +209,10 @@
 							"}",
 							"else if(recommjobID)",
 							"{",
-							"      setTimeout(function(){",
+							"        setTimeout(function(){",
 							"          console.log(\"Sleeping for 60 seconds before next request.\");",
 							"  }, 60000);",
+							"",
 							"     pm.environment.set(\"id\",\"{{RecommendJobID}}\");",
 							"}"
 						],
@@ -238,14 +243,14 @@
 					}
 				],
 				"url": {
-					"raw": "{{API_URL}}/resources/jobs/?id={{id}}",
+					"raw": "{{API_URL}}/resources/jobs/c08412e2-1d77-4a78-b3fd-ad976389c1f6?",
 					"host": [
 						"{{API_URL}}"
 					],
 					"path": [
 						"resources",
 						"jobs",
-						""
+						"c08412e2-1d77-4a78-b3fd-ad976389c1f6"
 					],
 					"query": [
 						{
@@ -272,10 +277,6 @@
 							"key": "category",
 							"value": "export",
 							"disabled": true
-						},
-						{
-							"key": "id",
-							"value": "{{id}}"
 						}
 					]
 				}
@@ -319,7 +320,17 @@
 							"",
 							"    ",
 							"    }",
-							"   ",
+							"    else if(recommTL)",
+							"    {",
+							"    var jsonData = pm.response.json();",
+							"    let ModJobIDR = jsonData.jobId;",
+							"    pm.environment.set(\"ModelJobIDR\",ModJobIDR);",
+							"    let exportrecommendID = pm.environment.get(\"RecommendTargetList\");",
+							"    pm.environment.set(\"EXPRecommendID\",exportrecommendID);",
+							"    pm.environment.unset(\"RecommendTargetList\");",
+							"    postman.setNextRequest(\"actionexport\");",
+							"    ",
+							"    }",
 							"    else if(predTL)",
 							"    {",
 							"   var jsonData = pm.response.json();",
@@ -388,7 +399,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\":\"VladimirnewlistModel{{$timestamp}}\",\n    \"listId\":\"{{TargetList}}\",\n     \"pattern\":\"people\",\n    \"purpose\": \"new_customer\",\n    \"description\": \"same stuff\"\n}\n"
+					"raw": "{\n    \"name\":\"VladimirnewlistModel{{$timestamp}}\",\n    \"listId\":\"{{TargetList}}\",\n    \"pattern\":\"companies\",\n    \"purpose\": \"new_attendee\",\n    \"description\": \"same stuff\"\n}\n"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/createmodel",
@@ -463,7 +474,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"modelId\":\"{{ModelID}}\",\n    \"listId\": \"{{EXPRecognizeID}}\"\n}\n"
+					"raw": "{\n    \"modelId\":\"8542f19c-8d22-4120-b7c0-bfcfe62ee577\",\n    \"listId\": \"e69020a6-bda9-454e-8fab-07c57c653deb\"\n}\n"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/predict",
@@ -528,7 +539,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"modelId\":\"{{ModelID}}\",\"maxCount\":100}"
+					"raw": "{\"modelId\":\"8542f19c-8d22-4120-b7c0-bfcfe62ee577\", \"maxCount\": 100}"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/recommend",
@@ -559,6 +570,7 @@
 							"    var jsonData = pm.response.json();",
 							"    let exportID = jsonData.jobId;",
 							"    pm.environment.set(\"EXPRecID\", exportID);",
+							"   postman.setNextRequest(\"actionExportPredict\");",
 							"});",
 							""
 						],
@@ -599,7 +611,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"listId\": \"{{EXPRecognizeID}}\",\n\t\"pattern\": \"people\"\n\t\n\t}\n\t\n\n\n\t\t\n"
+					"raw": "{\n\t\"listId\": \"{{EXPRecognizeID}}\",\n\t\"pattern\": \"companies\"\n\t\n\t}\n\t\n\n\n\t\t\n"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/export/",
@@ -610,133 +622,6 @@
 						"batch",
 						"export",
 						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Download - Job: Exported Data",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "d22be9ef-4e13-4a71-9a2d-8fdb03f2ae5d",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"    ",
-							"    if( pm.response.to.have.status(200)){",
-							"}",
-							"    ",
-							"});",
-							"pm.test(\"JSON Checking for structure\", function () {",
-							"    ",
-							"     var jsonData = pm.response.json();",
-							"    let responselist = jsonData.data;",
-							"    let customerData = jsonData.data[0].data[0].type;",
-							"    pm.environment.set(\"cusData\", customerData);",
-							"    ",
-							"    testCustomData = pm.variables.get(\"cusData\");",
-							"   pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(testCustomData);",
-							"});",
-							"    ",
-							"});",
-							"pm.test(\"JSON Checking for structure\", function () {",
-							"    ",
-							"     var jsonData = pm.response.json();",
-							"    let responselist = jsonData.data;",
-							"    let customerData = jsonData.data[0].data[0].nodeID;",
-							"    pm.environment.set(\"cusData\", customerData);",
-							"    ",
-							"    testCustomData = pm.variables.get(\"cusData\");",
-							"   pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(testCustomData);",
-							"});",
-							"    ",
-							"    ",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "28afa749-68a5-4893-b16e-9764282c6341",
-						"exec": [
-							" setTimeout(function(){",
-							"          console.log(\"Sleeping for 60 seconds before next request.\");",
-							"  }, 60000);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "image/png",
-						"type": "text",
-						"disabled": true
-					},
-					{
-						"key": "cache-control",
-						"value": "no-cache",
-						"type": "text"
-					},
-					{
-						"key": "x-api-key",
-						"value": "{{API_KEY}}",
-						"type": "text"
-					},
-					{
-						"key": "Accept",
-						"value": "image/png",
-						"type": "text",
-						"disabled": true
-					},
-					{
-						"key": "apirequestid",
-						"value": "b990cdbc-445e-11e9-a1c9-d55cf6b66c2d",
-						"type": "text",
-						"disabled": true
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{API_URL}}/resources/jobs/{{EXPRecID}}/detail?value=exportedData",
-					"host": [
-						"{{API_URL}}"
-					],
-					"path": [
-						"resources",
-						"jobs",
-						"{{EXPRecID}}",
-						"detail"
-					],
-					"query": [
-						{
-							"key": "value",
-							"value": "exportedData"
-						},
-						{
-							"key": "page",
-							"value": "4",
-							"disabled": true
-						}
 					]
 				}
 			},
@@ -760,6 +645,7 @@
 							"    ",
 							"",
 							"pm.environment.set(\"PredictEXID\", exportJID);",
+							"postman.setNextRequest(\"actionExportRecommend\");",
 							"",
 							"});",
 							""
@@ -791,7 +677,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"listId\": \"{{EXPPredictID}}\",\n\t\"pattern\": \"people\"\n\t\n\t}\n\t\n\n\n\t\t\n"
+					"raw": "{\n\t\"listId\": \"{{EXPPredictID}}\",\n\t\"pattern\": \"companies\"\n\t\n\t}\n\t\n\n\n\t\t\n"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/export/",
@@ -808,185 +694,22 @@
 			"response": []
 		},
 		{
-			"name": "Download - Job: Exported Data",
+			"name": "actionExportRecommend",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "d22be9ef-4e13-4a71-9a2d-8fdb03f2ae5d",
+						"id": "bc46de77-74db-43c5-b738-b469bc7fe217",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"    ",
-							"    if( pm.response.to.have.status(200)){",
-							"}",
-							"    ",
 							"});",
-							"pm.test(\"JSON Checking for structure\", function () {",
-							"    ",
-							"     var jsonData = pm.response.json();",
-							"    let responselist = jsonData.data;",
-							"    let customerData = jsonData.data[0].data[0].type;",
-							"    pm.environment.set(\"cusData\", customerData);",
-							"    ",
-							"    testCustomData = pm.variables.get(\"cusData\");",
-							"   pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(testCustomData);",
-							"});",
-							"    ",
-							"});",
-							"pm.test(\"JSON Checking for structure\", function () {",
-							"    ",
-							"     var jsonData = pm.response.json();",
-							"    let responselist = jsonData.data;",
-							"    let customerData = jsonData.data[0].data[0].nodeID;",
-							"    pm.environment.set(\"cusData\", customerData);",
-							"    ",
-							"    testCustomData = pm.variables.get(\"cusData\");",
-							"   pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(testCustomData);",
-							"});",
-							"    ",
-							"    ",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "28afa749-68a5-4893-b16e-9764282c6341",
-						"exec": [
-							" setTimeout(function(){",
-							"          console.log(\"Sleeping for 60 seconds before next request.\");",
-							"  }, 60000);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "image/png",
-						"type": "text",
-						"disabled": true
-					},
-					{
-						"key": "cache-control",
-						"value": "no-cache",
-						"type": "text"
-					},
-					{
-						"key": "x-api-key",
-						"value": "{{API_KEY}}",
-						"type": "text"
-					},
-					{
-						"key": "Accept",
-						"value": "image/png",
-						"type": "text",
-						"disabled": true
-					},
-					{
-						"key": "apirequestid",
-						"value": "b990cdbc-445e-11e9-a1c9-d55cf6b66c2d",
-						"type": "text",
-						"disabled": true
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{API_URL}}/resources/jobs/{{PredictEXID}}/detail?value=exportedData",
-					"host": [
-						"{{API_URL}}"
-					],
-					"path": [
-						"resources",
-						"jobs",
-						"{{PredictEXID}}",
-						"detail"
-					],
-					"query": [
-						{
-							"key": "value",
-							"value": "exportedData"
-						},
-						{
-							"key": "page",
-							"value": "4",
-							"disabled": true
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "action - Count Entities",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "d823a02d-a311-4771-a8ec-c0415c9c88d1",
-						"exec": [
-							"var CEfilters = pm.environment.get(\"CEfilters\");",
-							"if (!CEfilters) {",
-							"   CEfilters = [\"{ range(company.size, 0, 5) }\", \"{ has(company.industry) }\", \"{ isIn(company.country, 'United States') }\"];",
-							"}",
-							"console.log(\"CEprfil\",CEfilters);",
-							"var CEcurrentFilter = CEfilters.shift();",
-							"pm.environment.set('CEfilter', CEcurrentFilter);",
-							"pm.environment.set('CEfilters', CEfilters);",
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "1276b03d-9898-457b-bd2b-087df5f113d7",
-						"exec": [
+							"",
 							"pm.test(\"JSON Checking for structure\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    var counter = pm.globals.get(\"counter\");",
-							"    console.log(counter);",
+							"    pm.expect(jsonData.requestId).to.not.be.null;",
+							"    let exID = jsonData.jobId;",
+							"pm.environment.set(\"ReccomendEXID\", exID);",
 							"",
-							"    var CEfilter = pm.environment.get(\"CEfilter\");",
-							"    console.log(\"CEfilter\",CEfilter);",
-							"    if (CEfilter && CEfilter.length > 0) {",
-							"    pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"    let ceJobID = jsonData.totalCount;",
-							"    pm.environment.set(\"CEJOBID\" + counter, ceJobID);",
-							"    let CEJOBID= pm.environment.get(\"CEJOBID\" + counter);",
-							"    console.log(CEJOBID);",
-							"    postman.setNextRequest(\"action - Count Entities\");",
-							"    console.log(\"COUNTER: \" + counter++);",
-							"    pm.globals.set(\"counter\", counter++);",
-							"   ",
-							"} else {",
-							"    pm.test(\"Status code is 400\", function () {",
-							"    pm.response.to.have.status(400);",
-							"});",
-							"   ",
-							"}",
-							"   ",
-							"    ",
 							"",
 							"});",
 							""
@@ -1018,88 +741,17 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"filter\": \"{{CEfilter}}\"\n}\n"
+					"raw": "{\n\t\"listId\": \"{{EXPRecommendID}}\",\n\t\"pattern\": \"companies\"\n\t\n\t}\n\t\n\n\n\t\t\n"
 				},
 				"url": {
-					"raw": "{{API_URL}}/countEntities",
+					"raw": "{{API_URL}}/batch/export/",
 					"host": [
 						"{{API_URL}}"
 					],
 					"path": [
-						"countEntities"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "action - Distribution",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "9cce51a6-3e24-48f8-bc8e-3cdc57f38a4f",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"pm.test(\"JSON Checking for structure\", function () {",
-							"    var jsonData = pm.response.json();",
-							"         let responselist = jsonData.distribution;",
-							"    let Data = jsonData.distribution.State.Florida;",
-							"   ",
-							"",
-							"});",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "df407e68-f606-4881-9811-56c28eef6321",
-						"exec": [
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman."
-					},
-					{
-						"key": "x-api-key",
-						"type": "text",
-						"value": "{{API_KEY}}"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"listId\": \"{{EXPRecognizeID}}\"\n}\n"
-				},
-				"url": {
-					"raw": "{{API_URL}}/distribution",
-					"host": [
-						"{{API_URL}}"
-					],
-					"path": [
-						"distribution"
+						"batch",
+						"export",
+						""
 					]
 				}
 			},
@@ -1130,25 +782,25 @@
 	],
 	"variable": [
 		{
-			"id": "ec29d781-1e0f-41ff-8546-c251f1860d8e",
+			"id": "67fe7610-a7b2-4ffd-ac93-5e6e0fce1b60",
 			"key": "API_URL",
 			"value": "https://es29twi3ed.execute-api.us-west-2.amazonaws.com/qa01",
 			"type": "string"
 		},
 		{
-			"id": "731e5cc1-0c7b-4322-b2c5-2f6da52474e2",
+			"id": "4a4515fe-7ca6-4c3e-88c1-69d54f6264b5",
 			"key": "API_KEY",
 			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
 			"type": "string"
 		},
 		{
-			"id": "6f627b00-c75b-4850-ad69-86e95c026989",
+			"id": "8b13f5d9-95a1-4ecb-b5c8-1774b9808fca",
 			"key": "API_KEY_NEW",
 			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
 			"type": "string"
 		},
 		{
-			"id": "580c9631-b71b-4513-baae-2a4775657198",
+			"id": "6ca22821-772e-43f1-a10d-259e03acad28",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"

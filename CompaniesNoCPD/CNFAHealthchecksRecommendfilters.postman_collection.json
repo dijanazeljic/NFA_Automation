@@ -84,15 +84,15 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"modelId\":\"{{ModelID}}\",\n\"maxCount\": 10,\n\"filter\": \"{{RECfilter}}\",\n\"expansionFactor\": 1.1\n\t\n}"
+					"raw": "{\"modelId\":\"{{ModelID}}\",\n\"maxCount\": 10,\n\"filter\": \"{{RECfilter}}\"\n\t\n}"
 				},
 				"url": {
-					"raw": "{{API_URL}}/action/recommend",
+					"raw": "{{API_URL}}/batch/recommend",
 					"host": [
 						"{{API_URL}}"
 					],
 					"path": [
-						"action",
+						"batch",
 						"recommend"
 					]
 				}
@@ -179,10 +179,6 @@
 						"value": "{{API_KEY}}"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{API_URL}}/resources/jobs/?id={{id}}",
 					"host": [
@@ -279,12 +275,12 @@
 					"raw": "{\n\t\"listId\": \"{{RecommendTargetList}}\",\n\t\"pattern\": \"companies\"\n\t\n\t}\n\t\n\n\n\t\t\n"
 				},
 				"url": {
-					"raw": "{{API_URL}}/action/export/",
+					"raw": "{{API_URL}}/batch/export/",
 					"host": [
 						"{{API_URL}}"
 					],
 					"path": [
-						"action",
+						"batch",
 						"export",
 						""
 					]
@@ -458,28 +454,29 @@
 	],
 	"variable": [
 		{
-			"id": "f5d69d81-6e46-4540-9fb5-77ff826982da",
+			"id": "84e9e957-fb87-4358-bd4e-c0e93f6d8713",
 			"key": "API_URL",
-			"value": "https://api.uat.node-ops.net",
+			"value": "https://es29twi3ed.execute-api.us-west-2.amazonaws.com/qa01",
 			"type": "string"
 		},
 		{
-			"id": "0e326fea-91e5-4a8e-aab8-b5604473cd22",
+			"id": "2062ed66-50eb-4331-9527-7af132d3a043",
 			"key": "API_KEY",
-			"value": "sA5GcUebJY2dLRP60VsDj6mG5l3vadli8HAOg47N",
+			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
 			"type": "string"
 		},
 		{
-			"id": "14b2494f-aefe-41f9-a8b3-e2723baf583f",
+			"id": "57cf0060-5876-43c6-a43e-792939951efe",
 			"key": "API_KEY_NEW",
 			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
 			"type": "string"
 		},
 		{
-			"id": "0f20671e-98be-46ad-bb9d-5a3edbf39f52",
+			"id": "15af60ea-9ed5-4840-8bd7-e43d752e0818",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }

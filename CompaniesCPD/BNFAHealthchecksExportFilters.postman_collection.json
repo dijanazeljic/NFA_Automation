@@ -85,12 +85,12 @@
 					"raw": "{\n\t\"listId\": \"{{EXPRecognizeID}}\",\n\t\"filter\":\"{{EXPfilter}}\",\n\t\"pattern\": \"companies\"\n\t\n\t}\n\t\n\n\n\t\t\n"
 				},
 				"url": {
-					"raw": "{{API_URL}}/action/export/",
+					"raw": "{{API_URL}}/batch/export/",
 					"host": [
 						"{{API_URL}}"
 					],
 					"path": [
-						"action",
+						"batch",
 						"export",
 						""
 					]
@@ -167,7 +167,7 @@
 						"exec": [
 							" setTimeout(function(){",
 							"          console.log(\"Sleeping for 60 seconds before next request.\");",
-							"  }, 120000);"
+							"  }, 60000);"
 						],
 						"type": "text/javascript"
 					}
@@ -266,28 +266,29 @@
 	],
 	"variable": [
 		{
-			"id": "a4ebbdd2-a0c0-4e7b-a637-86203dadf3a3",
+			"id": "d5e64f07-a62e-4b23-a5a3-976ee700ea62",
 			"key": "API_URL",
-			"value": "https://api.uat.node-ops.net",
+			"value": "https://es29twi3ed.execute-api.us-west-2.amazonaws.com/qa01",
 			"type": "string"
 		},
 		{
-			"id": "a2285d1e-37f0-412f-8986-336d2e181de6",
+			"id": "488b66a9-5deb-42cd-a30c-35ce81921f06",
 			"key": "API_KEY",
-			"value": "sA5GcUebJY2dLRP60VsDj6mG5l3vadli8HAOg47N",
+			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
 			"type": "string"
 		},
 		{
-			"id": "4cb7ccb4-1196-45be-beb5-0b41e276b6a8",
+			"id": "e4c4ae1b-65f1-49a8-9e1b-44ed0d6bc47b",
 			"key": "API_KEY_NEW",
 			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
 			"type": "string"
 		},
 		{
-			"id": "58e02245-8633-4f31-b33f-618158a88619",
+			"id": "06f968ea-455b-4c67-a7b6-e068a33ac08a",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }

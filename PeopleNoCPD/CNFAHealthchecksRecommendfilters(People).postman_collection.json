@@ -84,15 +84,15 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"modelId\":\"{{ModelID}}\",\n\"maxCount\": 10,\n\"filter\": \"{{RECfilter}}\",\n\"expansionFactor\": 1.1\n\t\n}"
+					"raw": "{\"modelId\":\"{{ModelID}}\",\n\"maxCount\": 10,\n\"filter\": \"{{RECfilter}}\"\n\t\n}"
 				},
 				"url": {
-					"raw": "{{API_URL}}/action/recommend",
+					"raw": "{{API_URL}}/batch/recommend",
 					"host": [
 						"{{API_URL}}"
 					],
 					"path": [
-						"action",
+						"batch",
 						"recommend"
 					]
 				}
@@ -179,10 +179,6 @@
 						"value": "{{API_KEY}}"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{API_URL}}/resources/jobs/?id={{id}}",
 					"host": [
@@ -279,12 +275,12 @@
 					"raw": "{\n\t\"listId\": \"{{RecommendTargetList}}\",\n\t\"pattern\": \"companies\"\n\t\n\t}\n\t\n\n\n\t\t\n"
 				},
 				"url": {
-					"raw": "{{API_URL}}/action/export/",
+					"raw": "{{API_URL}}/batch/export/",
 					"host": [
 						"{{API_URL}}"
 					],
 					"path": [
-						"action",
+						"batch",
 						"export",
 						""
 					]
@@ -458,28 +454,29 @@
 	],
 	"variable": [
 		{
-			"id": "51afe175-be9d-4efb-8064-6d79da2c6485",
+			"id": "a5507d8a-7349-4717-9586-71f4cba385f7",
 			"key": "API_URL",
 			"value": "https://es29twi3ed.execute-api.us-west-2.amazonaws.com/qa01",
 			"type": "string"
 		},
 		{
-			"id": "f15613eb-b305-48af-b879-06293f3b6467",
+			"id": "1645240a-f1ee-4927-935e-6c02542caa8d",
 			"key": "API_KEY",
-			"value": "9cOkL5LyOy6lHXFTyXNvv7iGlpMLPBuO2Vhuy0N8",
+			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
 			"type": "string"
 		},
 		{
-			"id": "be8f2621-c031-476d-b4d1-20f874949411",
+			"id": "2064699e-6a9e-403c-8149-ba0af6676209",
 			"key": "API_KEY_NEW",
 			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
 			"type": "string"
 		},
 		{
-			"id": "38e61f4d-ba02-426b-b9b8-66476eb0d275",
+			"id": "2650c622-2f47-4882-b99d-3c15f6fb38b6",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }

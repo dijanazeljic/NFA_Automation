@@ -191,28 +191,28 @@
 							"if(recjobID) {",
 							"     setTimeout(function(){",
 							"          console.log(\"Sleeping for 60 seconds before next request.\");",
-							"  }, 120000);",
+							"  }, 60000);",
 							"   pm.environment.set(\"id\",\"{{RecognizeJOBID}}\");",
 							"  ",
 							"}else if(modjobID)",
 							"{",
 							"     setTimeout(function(){",
 							"          console.log(\"Sleeping for 60 seconds before next request.\");",
-							"  }, 120000);",
+							"  }, 60000);",
 							"     pm.environment.set(\"id\",\"{{ModelJobID}}\");",
 							"}",
 							"else if(prejobID)",
 							"{",
 							"    setTimeout(function(){",
 							"          console.log(\"Sleeping for 60 seconds before next request.\");",
-							"  }, 120000);",
+							"  }, 60000);",
 							"     pm.environment.set(\"id\",\"{{PredictJobID}}\");",
 							"}",
 							"else if(recommjobID)",
 							"{",
 							"        setTimeout(function(){",
 							"          console.log(\"Sleeping for 60 seconds before next request.\");",
-							"  }, 180000);",
+							"  }, 60000);",
 							"",
 							"     pm.environment.set(\"id\",\"{{RecommendJobID}}\");",
 							"}"
@@ -243,10 +243,6 @@
 						"value": "{{API_KEY}}"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{API_URL}}/resources/jobs/?id={{id}}",
 					"host": [
@@ -548,15 +544,15 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"modelId\":\"{{ModelID}}\",\"expansionFactor\": 1.1,\"maxCount\":10}"
+					"raw": "{\"modelId\":\"{{ModelID}}\",\"maxCount\":10}"
 				},
 				"url": {
-					"raw": "{{API_URL}}/action/recommend",
+					"raw": "{{API_URL}}/batch/recommend",
 					"host": [
 						"{{API_URL}}"
 					],
 					"path": [
-						"action",
+						"batch",
 						"recommend"
 					]
 				}
@@ -579,7 +575,6 @@
 							"    var jsonData = pm.response.json();",
 							"    let exportID = jsonData.jobId;",
 							"    pm.environment.set(\"EXPRecID\", exportID);",
-							"   postman.setNextRequest(\"actionExportPredict\");",
 							"});",
 							""
 						],
@@ -623,14 +618,141 @@
 					"raw": "{\n\t\"listId\": \"{{EXPRecognizeID}}\",\n\t\"pattern\": \"people\"\n\t\n\t}\n\t\n\n\n\t\t\n"
 				},
 				"url": {
-					"raw": "{{API_URL}}/action/export/",
+					"raw": "{{API_URL}}/batch/export/",
 					"host": [
 						"{{API_URL}}"
 					],
 					"path": [
-						"action",
+						"batch",
 						"export",
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Download - Job: Exported Data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d22be9ef-4e13-4a71-9a2d-8fdb03f2ae5d",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    ",
+							"    if( pm.response.to.have.status(200)){",
+							"}",
+							"    ",
+							"});",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    ",
+							"     var jsonData = pm.response.json();",
+							"    let responselist = jsonData.data;",
+							"    let customerData = jsonData.data[0].data[0].type;",
+							"    pm.environment.set(\"cusData\", customerData);",
+							"    ",
+							"    testCustomData = pm.variables.get(\"cusData\");",
+							"   pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(testCustomData);",
+							"});",
+							"    ",
+							"});",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    ",
+							"     var jsonData = pm.response.json();",
+							"    let responselist = jsonData.data;",
+							"    let customerData = jsonData.data[0].data[0].nodeID;",
+							"    pm.environment.set(\"cusData\", customerData);",
+							"    ",
+							"    testCustomData = pm.variables.get(\"cusData\");",
+							"   pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(testCustomData);",
+							"});",
+							"    ",
+							"    ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "28afa749-68a5-4893-b16e-9764282c6341",
+						"exec": [
+							" setTimeout(function(){",
+							"          console.log(\"Sleeping for 60 seconds before next request.\");",
+							"  }, 60000);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "image/png",
+						"disabled": true
+					},
+					{
+						"key": "cache-control",
+						"type": "text",
+						"value": "no-cache"
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "image/png",
+						"disabled": true
+					},
+					{
+						"key": "apirequestid",
+						"type": "text",
+						"value": "b990cdbc-445e-11e9-a1c9-d55cf6b66c2d",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{API_URL}}/resources/jobs/{{EXPRecID}}/detail?value=exportedData",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"resources",
+						"jobs",
+						"{{EXPRecID}}",
+						"detail"
+					],
+					"query": [
+						{
+							"key": "value",
+							"value": "exportedData"
+						},
+						{
+							"key": "page",
+							"value": "4",
+							"disabled": true
+						}
 					]
 				}
 			},
@@ -654,7 +776,6 @@
 							"    ",
 							"",
 							"pm.environment.set(\"PredictEXID\", exportJID);",
-							"postman.setNextRequest(\"actionExportRecommend\");",
 							"",
 							"});",
 							""
@@ -686,17 +807,144 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"listId\": \"{{EXPPredictID}}\",\n\t\"pattern\": \"people\"\n\t\n\t}\n\t\n\n\n\t\t\n"
+					"raw": "{\n\t\"listId\": \"{{EXPPredictID}}\",\n\t\"pattern\": \"companies\"\n\t\n\t}\n\t\n\n\n\t\t\n"
 				},
 				"url": {
-					"raw": "{{API_URL}}/action/export/",
+					"raw": "{{API_URL}}/batch/export/",
 					"host": [
 						"{{API_URL}}"
 					],
 					"path": [
-						"action",
+						"batch",
 						"export",
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Download - Job: Exported Data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d22be9ef-4e13-4a71-9a2d-8fdb03f2ae5d",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    ",
+							"    if( pm.response.to.have.status(200)){",
+							"}",
+							"    ",
+							"});",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    ",
+							"     var jsonData = pm.response.json();",
+							"    let responselist = jsonData.data;",
+							"    let customerData = jsonData.data[0].data[0].type;",
+							"    pm.environment.set(\"cusData\", customerData);",
+							"    ",
+							"    testCustomData = pm.variables.get(\"cusData\");",
+							"   pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(testCustomData);",
+							"});",
+							"    ",
+							"});",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    ",
+							"     var jsonData = pm.response.json();",
+							"    let responselist = jsonData.data;",
+							"    let customerData = jsonData.data[0].data[0].nodeID;",
+							"    pm.environment.set(\"cusData\", customerData);",
+							"    ",
+							"    testCustomData = pm.variables.get(\"cusData\");",
+							"   pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(testCustomData);",
+							"});",
+							"    ",
+							"    ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "28afa749-68a5-4893-b16e-9764282c6341",
+						"exec": [
+							" setTimeout(function(){",
+							"          console.log(\"Sleeping for 60 seconds before next request.\");",
+							"  }, 60000);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "image/png",
+						"disabled": true
+					},
+					{
+						"key": "cache-control",
+						"type": "text",
+						"value": "no-cache"
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "image/png",
+						"disabled": true
+					},
+					{
+						"key": "apirequestid",
+						"type": "text",
+						"value": "b990cdbc-445e-11e9-a1c9-d55cf6b66c2d",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{API_URL}}/resources/jobs/{{PredictEXID}}/detail?value=exportedData",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"resources",
+						"jobs",
+						"{{PredictEXID}}",
+						"detail"
+					],
+					"query": [
+						{
+							"key": "value",
+							"value": "exportedData"
+						},
+						{
+							"key": "page",
+							"value": "4",
+							"disabled": true
+						}
 					]
 				}
 			},
@@ -761,6 +1009,133 @@
 						"action",
 						"export",
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Download - Job: Exported Data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d22be9ef-4e13-4a71-9a2d-8fdb03f2ae5d",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    ",
+							"    if( pm.response.to.have.status(200)){",
+							"}",
+							"    ",
+							"});",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    ",
+							"     var jsonData = pm.response.json();",
+							"    let responselist = jsonData.data;",
+							"    let customerData = jsonData.data[0].data[0].type;",
+							"    pm.environment.set(\"cusData\", customerData);",
+							"    ",
+							"    testCustomData = pm.variables.get(\"cusData\");",
+							"   pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(testCustomData);",
+							"});",
+							"    ",
+							"});",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    ",
+							"     var jsonData = pm.response.json();",
+							"    let responselist = jsonData.data;",
+							"    let customerData = jsonData.data[0].data[0].nodeID;",
+							"    pm.environment.set(\"cusData\", customerData);",
+							"    ",
+							"    testCustomData = pm.variables.get(\"cusData\");",
+							"   pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(testCustomData);",
+							"});",
+							"    ",
+							"    ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "28afa749-68a5-4893-b16e-9764282c6341",
+						"exec": [
+							" setTimeout(function(){",
+							"          console.log(\"Sleeping for 60 seconds before next request.\");",
+							"  }, 60000);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "image/png",
+						"disabled": true
+					},
+					{
+						"key": "cache-control",
+						"type": "text",
+						"value": "no-cache"
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "image/png",
+						"disabled": true
+					},
+					{
+						"key": "apirequestid",
+						"type": "text",
+						"value": "b990cdbc-445e-11e9-a1c9-d55cf6b66c2d",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{API_URL}}/resources/jobs/{{ReccomendEXID}}/detail?value=exportedData",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"resources",
+						"jobs",
+						"{{ReccomendEXID}}",
+						"detail"
+					],
+					"query": [
+						{
+							"key": "value",
+							"value": "exportedData"
+						},
+						{
+							"key": "page",
+							"value": "4",
+							"disabled": true
+						}
 					]
 				}
 			},
@@ -853,12 +1228,11 @@
 					"raw": "{\n    \"filter\": \"{{CEfilter}}\"\n}\n"
 				},
 				"url": {
-					"raw": "{{API_URL}}/action/countEntities",
+					"raw": "{{API_URL}}/countEntities",
 					"host": [
 						"{{API_URL}}"
 					],
 					"path": [
-						"action",
 						"countEntities"
 					]
 				}
@@ -926,12 +1300,11 @@
 					"raw": "{\n    \"listId\": \"{{EXPRecognizeID}}\"\n}\n"
 				},
 				"url": {
-					"raw": "{{API_URL}}/action/distribution",
+					"raw": "{{API_URL}}/distribution",
 					"host": [
 						"{{API_URL}}"
 					],
 					"path": [
-						"action",
 						"distribution"
 					]
 				}
@@ -963,28 +1336,29 @@
 	],
 	"variable": [
 		{
-			"id": "ddb5865d-dad3-44b9-954e-8dd89bae3bd7",
+			"id": "5f1925ad-a2f1-4701-b443-3cf03c0193d5",
 			"key": "API_URL",
-			"value": "https://api.uat.node-ops.net",
+			"value": "https://es29twi3ed.execute-api.us-west-2.amazonaws.com/qa01",
 			"type": "string"
 		},
 		{
-			"id": "bf41dd0a-9d28-40fd-9684-2bc013465c4b",
+			"id": "1bf136a5-15bf-4f46-a5a8-f8dc1b093579",
 			"key": "API_KEY",
-			"value": "sA5GcUebJY2dLRP60VsDj6mG5l3vadli8HAOg47N",
+			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
 			"type": "string"
 		},
 		{
-			"id": "01a122bf-7e46-4802-8bf4-4b07d8237b79",
+			"id": "2f5f4428-efcb-4210-83bf-06e4e094937f",
 			"key": "API_KEY_NEW",
 			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
 			"type": "string"
 		},
 		{
-			"id": "1d40a5d0-50bf-493d-b177-e62e80a75d1a",
+			"id": "e1a8dcca-b120-4949-b82c-55b57c68cb60",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }

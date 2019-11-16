@@ -85,12 +85,12 @@
 					"raw": "{\n\t\"listId\": \"{{EXPRecognizeID}}\",\n\t\"filter\":\"{{EXPfilter}}\",\n\t\"pattern\": \"people\"\n\t\n\t}\n\t\n\n\n\t\t\n"
 				},
 				"url": {
-					"raw": "{{API_URL}}/action/export/",
+					"raw": "{{API_URL}}/batch/export/",
 					"host": [
 						"{{API_URL}}"
 					],
 					"path": [
-						"action",
+						"batch",
 						"export",
 						""
 					]
@@ -253,28 +253,29 @@
 	],
 	"variable": [
 		{
-			"id": "c3b00760-bb5e-4846-bd26-8c2e2e52d987",
+			"id": "4ea1c2f3-4554-4649-adf7-3ff891fcb94e",
 			"key": "API_URL",
-			"value": "https://api.uat.node-ops.net",
+			"value": "https://es29twi3ed.execute-api.us-west-2.amazonaws.com/qa01",
 			"type": "string"
 		},
 		{
-			"id": "3ee46970-ee81-4481-a75e-4a4960485a1e",
+			"id": "0c11d2ed-4ef1-43ca-aca5-8a788eaead92",
 			"key": "API_KEY",
-			"value": "sA5GcUebJY2dLRP60VsDj6mG5l3vadli8HAOg47N",
+			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
 			"type": "string"
 		},
 		{
-			"id": "3a6917c0-5dca-44b5-9431-07346d959dda",
+			"id": "e88269de-2174-43ed-b975-2ef697fbe2be",
 			"key": "API_KEY_NEW",
 			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
 			"type": "string"
 		},
 		{
-			"id": "5c7468ad-bbe7-44ca-9baa-81dc907dcab4",
+			"id": "036dcd9d-1a12-4236-be9a-051609435063",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }
