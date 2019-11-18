@@ -1,8 +1,84 @@
 {
-	"id": "16d27d3a-c6bf-40b7-ba2c-3c296dbe36a2",
-	"name": "QAAutomation",
-	"values": [],
-	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2019-11-16T21:59:10.761Z",
-	"_postman_exported_using": "Postman/7.10.0"
+  "_": {
+    "postman_variable_scope": "environment",
+    "postman_exported_at": "2019-11-18T09:52:50.254Z",
+    "postman_exported_using": "Newman/4.5.5"
+  },
+  "id": "16d27d3a-c6bf-40b7-ba2c-3c296dbe36a2",
+  "name": "QAAutomation",
+  "values": [
+    {
+      "type": "any",
+      "value": "{{RecommendJobID}}",
+      "key": "id"
+    },
+    {
+      "type": "any",
+      "value": "{{PredictTargetList}}",
+      "key": "TargetList"
+    },
+    {
+      "type": "any",
+      "value": "e3a23e03-e025-4f07-8c41-eeeb5651fc74",
+      "key": "EXPRecognizeID"
+    },
+    {
+      "type": "any",
+      "value": "079c7f3c-f1d9-4e3b-8074-7f85c18c3850",
+      "key": "ModelID"
+    },
+    {
+      "type": "any",
+      "value": "73b6c1b7-437c-4b81-8671-892b460c8810",
+      "key": "ModelJobIDP"
+    },
+    {
+      "type": "any",
+      "value": "f1cc782a-14da-4c56-ba81-2589de2a0dca",
+      "key": "EXPPredictID"
+    },
+    {
+      "type": "any",
+      "value": "453c4035-45fd-4d93-8856-350a367a0175",
+      "key": "EXPRecID"
+    },
+    {
+      "type": "any",
+      "value": "357d2f46-3fc4-488b-a46e-ed5c3cb391b7",
+      "key": "PredictEXID"
+    },
+    {
+      "type": "any",
+      "value": null,
+      "key": "ReccomendEXID"
+    },
+    {
+      "type": "any",
+      "value": null,
+      "key": "CEfilter"
+    },
+    {
+      "type": "any",
+      "value": [],
+      "key": "CEfilters"
+    },
+    {
+      "type": "any",
+      "value": 36355650,
+      "key": "CEJOBID43"
+    },
+    {
+      "type": "any",
+      "value": 32695485,
+      "key": "CEJOBID44"
+    },
+    {
+      "type": "any",
+      "value": 27995407,
+      "key": "CEJOBID45"
+    }
+  ],
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2019-11-18T09:59:04.127Z",
+  "_postman_exported_using": "Newman/4.5.5"
 }
