@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "eddb71dd-a674-465f-ac75-50b45a4b5417",
+		"_postman_id": "6b92ad3f-19d2-43a8-90ab-2ecd1b62db77",
 		"name": "NFA - Health checks Export Filters (People)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -276,5 +276,6 @@
 			"value": "{{recognizeJobID}}",
 			"type": "string"
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }
