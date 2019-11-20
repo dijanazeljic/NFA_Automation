@@ -119,6 +119,10 @@
 							"         setTimeout(function(){",
 							"          console.log(\"Sleeping for 60 seconds before next request.\");",
 							"  }, 60000);",
+							"    pm.test(\"Number of records\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(Object.keys(jsonData.results.jobs[0]).length).to.eql(10);",
+							"    }); ",
 							"    let targetlistID = jsonData.results.jobs[0].targetListId;",
 							"    pm.environment.set(\"RecognizeTargetList\", targetlistID);",
 							"    pm.environment.unset(\"RecognizeJOBID\");",
@@ -129,6 +133,10 @@
 							"    setTimeout(function(){",
 							"          console.log(\"Sleeping for 60 seconds before next request.\");",
 							"  }, 60000);",
+							"    pm.test(\"Number of records\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(Object.keys(jsonData.results.jobs[0]).length).to.eql(10);",
+							"    }); ",
 							"    let ModID = jsonData.results.jobs[0].modelId;",
 							"    pm.environment.set(\"ModelID\",ModID);",
 							"    let pero = pm.environment.get(\"ModelID\");",
@@ -140,7 +148,10 @@
 							"    }",
 							"    else if(prejobID)",
 							"    {",
-							"       ",
+							"    pm.test(\"Number of records\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(Object.keys(jsonData.results.jobs[0]).length).to.eql(11);",
+							"    });     ",
 							"   let PredTargetlistID = jsonData.results.jobs[0].targetListId;",
 							"    pm.environment.set(\"PredictTargetList\", PredTargetlistID);",
 							"     let peroPL = pm.environment.get(\"PredictTargetList\");",
@@ -390,7 +401,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\":\"VladimirnewlistModel{{$timestamp}}\",\n    \"listId\":\"{{TargetList}}\",\n    \"pattern\":\"companies\",\n    \"purpose\": \"new_attendee\",\n    \"description\": \"same stuff\"\n}\n"
+					"raw": "{\n    \"name\":\"VladimirnewlistModel{{$timestamp}}\",\n    \"listId\":\"{{TargetList}}\",\n    \"pattern\":\"companies\",\n    \"purpose\": \"new_attendee\",\n    \"description\": \"same stuff\",\n    \"params\": {\n        \"minimumPositiveAccuracy\":0.7,\n        \"minimumNegativeAccuracy\":0.2\n\t}\n}\n"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/createmodel",
@@ -1119,7 +1130,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"listId\": \"e09bde1c-6886-4686-ae23-f3ac9198ab24\"\n}\n"
+					"raw": "{\n    \"listId\": \"{{EXPRecognizeID}}\"\n}\n"
 				},
 				"url": {
 					"raw": "{{API_URL}}/distribution",
@@ -1158,25 +1169,27 @@
 	],
 	"variable": [
 		{
-			"id": "8ce5d1b1-9543-4d65-ad66-98c35a977b08",
+			"id": "fb310a0a-6132-4745-9422-fe7096437537",
 			"key": "API_URL",
 			"value": "https://es29twi3ed.execute-api.us-west-2.amazonaws.com/qa01",
-			"type": "string"
+			"type": "string",
+			"disabled": true
 		},
 		{
-			"id": "206d95d8-d39a-4d4e-a788-9f3e3a17f1c7",
+			"id": "4d69743e-0a54-40ac-98a4-ddbe694e9ad6",
 			"key": "API_KEY",
 			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
-			"type": "string"
+			"type": "string",
+			"disabled": true
 		},
 		{
-			"id": "d6a3dbd7-7662-4729-b647-c0d0f44bc0b3",
+			"id": "97240779-c057-48ca-8cd7-8b82a21a7dc3",
 			"key": "API_KEY_NEW",
 			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
 			"type": "string"
 		},
 		{
-			"id": "e155a206-4233-4aea-acd4-ba66bdf09db7",
+			"id": "0a9c73f3-2990-4f9e-984b-0f3eef566f4a",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"
