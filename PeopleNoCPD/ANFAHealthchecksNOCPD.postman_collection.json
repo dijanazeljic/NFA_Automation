@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2807ad77-5027-408c-914e-a29af2ff5285",
+		"_postman_id": "006c4b46-332c-4580-bc36-c24252a45d0c",
 		"name": "NFA - Health checks NO CPD (People)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -17,15 +17,15 @@
 							"    // pm.response.to.have.status(200);",
 							"    ",
 							"    if( pm.response.to.have.status(200)){",
-							"",
 							"        console.log(\"Sleeping for 3 seconds before next request.\");",
 							"        setTimeout(function(){}, 3000);}",
 							"});",
 							"",
 							"pm.test(\"JSON Checking for structure\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    // pm.expect(jsonData.requestId).to.not.be.null;",
 							"    let recognizeJID = jsonData.jobId;",
+							"    console.log(\"recognizeJID\", recognizeJID);",
+							"    console.log(\"recognizeJID optimized\", jsonData = pm.response.json().jobId);",
 							"    ",
 							"    pm.environment.set(\"RecognizeJOBID\", recognizeJID);",
 							"",
@@ -517,14 +517,14 @@
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
+							"",
 							"pm.test(\"JSON Checking for structure\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.requestId).to.not.be.null;",
-							"     let predJobID = jsonData.jobId;",
-							"    ",
+							"    let predJobID = jsonData.jobId;",
 							"",
-							"pm.environment.set(\"PredictJobID\", predJobID);",
-							"postman.setNextRequest(\"ResourcesJobs\");",
+							"    pm.environment.set(\"PredictJobID\", predJobID);",
+							"    ",
+							"    postman.setNextRequest(\"ResourcesJobs\");",
 							"});",
 							""
 						],
@@ -536,10 +536,15 @@
 					"script": {
 						"id": "7008504c-ba6f-47ca-ab61-dbb7f44b905d",
 						"exec": [
-							"console.log(\"***** Create Model - Pre-request Script. START *****\");",
+							"console.log(\"***** Create Predict - Pre-request Script. START *****\");",
 							"",
-							"let proveraliste = pm.environment.get(\"RecognizeTargetList\");",
-							"console.log(\"PL\",proveraliste);"
+							"let listID = pm.environment.get(\"EXPRecognizeID\");",
+							"console.log(\"EXPRecognizeID:\", listID);",
+							"",
+							"let modelID = pm.environment.get(\"ModelID\");",
+							"console.log(\"ModelID:\", modelID);",
+							"",
+							"console.log(\"***** Create Predict - Pre-request Script. END *****\");"
 						],
 						"type": "text/javascript"
 					}
@@ -594,14 +599,15 @@
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
+							"",
 							"pm.test(\"JSON Checking for structure\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.requestId).to.not.be.null;",
-							"     let recommJobID = jsonData.jobId;",
+							"    let recommJobID = jsonData.jobId;",
 							"    ",
-							"",
 							"pm.environment.set(\"RecommendJobID\", recommJobID);",
+							"",
 							"postman.setNextRequest(\"ResourcesJobs\");",
+							"",
 							"});",
 							""
 						],
@@ -633,7 +639,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"modelId\":\"{{ModelID}}\",\"maxCount\":10}"
+					"raw": "{\n    \"modelId\": \"{{ModelID}}\",\n    \"maxCount\": 10\n}"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/recommend",
@@ -660,10 +666,9 @@
 							"});",
 							"",
 							"pm.test(\"JSON Checking for structure\", function () {",
-							"",
 							"    var jsonData = pm.response.json();",
-							"    let exportID = jsonData.jobId;",
-							"    pm.environment.set(\"EXPRecID\", exportID);",
+							"    let jobID = jsonData.jobId;",
+							"    pm.environment.set(\"EXPRecID\", jobID);",
 							"});",
 							""
 						],
@@ -704,7 +709,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"listId\": \"{{EXPRecognizeID}}\",\n\t\"pattern\": \"people\"\n\t\n\t}\n\t\n\n\n\t\t\n"
+					"raw": "{\n    \"listId\": \"{{EXPRecognizeID}}\",\n    \"pattern\": \"people\"\n}"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/export/",
@@ -726,38 +731,44 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d22be9ef-4e13-4a71-9a2d-8fdb03f2ae5d",
+						"id": "346c804e-5787-4a78-b735-8e45e9acbb21",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"    ",
 							"    if( pm.response.to.have.status(200)){",
-							"}",
-							"    ",
+							"        console.log(\"Sleeping for 3 seconds before next request.\");",
+							"        setTimeout(function(){}, 3000);}",
 							"});",
+							"",
 							"pm.test(\"JSON Checking for structure\", function () {",
-							"    ",
-							"     var jsonData = pm.response.json();",
+							"    var jsonData = pm.response.json();",
 							"    let responselist = jsonData.data;",
+							"    console.log(\"jsonData.data value\", responselist);",
 							"    let customerData = jsonData.data[0].data[0].type;",
+							"    ",
+							"    console.log(\"jsonData.data value\", customerData);",
 							"    pm.environment.set(\"cusData\", customerData);",
 							"    ",
-							"    testCustomData = pm.variables.get(\"cusData\");",
-							"   pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(testCustomData);",
-							"});",
+							"    testCustomData = pm.environment.get(\"cusData\");",
+							"    pm.test(\"Body matches string\", function () {",
+							"        pm.expect(pm.response.text()).to.include(testCustomData);",
+							"    });",
 							"    ",
 							"});",
+							"",
 							"pm.test(\"JSON Checking for structure\", function () {",
 							"    ",
-							"     var jsonData = pm.response.json();",
+							"    var jsonData = pm.response.json();",
 							"    let responselist = jsonData.data;",
+							"    console.log(\"jsonData.data value\", responselist);",
+							"    ",
 							"    let customerData = jsonData.data[0].data[0].nodeID;",
+							"    console.log(\"jsonData.data value\", customerData);",
+							"    ",
 							"    pm.environment.set(\"cusData\", customerData);",
 							"    ",
 							"    testCustomData = pm.variables.get(\"cusData\");",
-							"   pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(testCustomData);",
+							"    pm.test(\"Body matches string\", function () {",
+							"        pm.expect(pm.response.text()).to.include(testCustomData);",
 							"});",
 							"    ",
 							"    ",
@@ -769,7 +780,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "28afa749-68a5-4893-b16e-9764282c6341",
+						"id": "6e636cc6-91e8-4bdf-9d3d-f844f2be001a",
 						"exec": [
 							" setTimeout(function(){",
 							"          console.log(\"Sleeping for 60 seconds before next request.\");",
