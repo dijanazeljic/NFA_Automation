@@ -266,25 +266,27 @@
 	],
 	"variable": [
 		{
-			"id": "d5e64f07-a62e-4b23-a5a3-976ee700ea62",
+			"id": "71f8d92a-7257-42ed-8920-5fff1fce589b",
 			"key": "API_URL",
 			"value": "https://es29twi3ed.execute-api.us-west-2.amazonaws.com/qa01",
-			"type": "string"
+			"type": "string",
+			"disabled": true
 		},
 		{
-			"id": "488b66a9-5deb-42cd-a30c-35ce81921f06",
+			"id": "f0103c58-0456-454d-b09e-b4a40526c1ac",
 			"key": "API_KEY",
 			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
-			"type": "string"
+			"type": "string",
+			"disabled": true
 		},
 		{
-			"id": "e4c4ae1b-65f1-49a8-9e1b-44ed0d6bc47b",
+			"id": "ceb4ebd0-2667-4bb4-88b0-e943b34e5206",
 			"key": "API_KEY_NEW",
 			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
 			"type": "string"
 		},
 		{
-			"id": "06f968ea-455b-4c67-a7b6-e068a33ac08a",
+			"id": "a2186646-f2bb-4d9c-8a0f-a5f9a2ed1c5a",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"
