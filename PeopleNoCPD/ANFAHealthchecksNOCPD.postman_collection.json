@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "006c4b46-332c-4580-bc36-c24252a45d0c",
+		"_postman_id": "bec297e8-2c35-4b80-8fc3-27d8ab51fd11",
 		"name": "NFA - Health checks NO CPD (People)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1465,25 +1465,27 @@
 	],
 	"variable": [
 		{
-			"id": "5f1925ad-a2f1-4701-b443-3cf03c0193d5",
+			"id": "e487f271-740b-42a4-932a-ccb373bd120d",
 			"key": "API_URL",
 			"value": "https://es29twi3ed.execute-api.us-west-2.amazonaws.com/qa01",
-			"type": "string"
+			"type": "string",
+			"disabled": true
 		},
 		{
-			"id": "1bf136a5-15bf-4f46-a5a8-f8dc1b093579",
+			"id": "09a1bd31-124d-4eaf-bcad-85e67f27af42",
 			"key": "API_KEY",
 			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
-			"type": "string"
+			"type": "string",
+			"disabled": true
 		},
 		{
-			"id": "2f5f4428-efcb-4210-83bf-06e4e094937f",
+			"id": "f0697395-63a6-4fd7-ad91-2c8ceae0d8f8",
 			"key": "API_KEY_NEW",
 			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
 			"type": "string"
 		},
 		{
-			"id": "e1a8dcca-b120-4949-b82c-55b57c68cb60",
+			"id": "dd087e6d-04e7-4e59-ad38-c0bf9afff2b4",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"
