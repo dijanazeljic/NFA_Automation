@@ -1,0 +1,561 @@
+{
+	"info": {
+		"_postman_id": "0a1b1f58-24aa-451d-b3e6-b2e42a28920d",
+		"name": "Smoke real time QA Automation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Recognize Entities",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f976f03e-37a0-4c52-badb-6f87411bcca7",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    ",
+							"    if( pm.response.to.have.status(200)){",
+							"",
+							"  setTimeout(function(){",
+							"          console.log(\"Sleeping for 3 seconds before next request.\");",
+							"  }, 3000);}",
+							"  ",
+							"});",
+							"",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.requestId).to.not.be.null;",
+							"    let entities = jsonData.entities;",
+							"    let hints = jsonData.hints;",
+							"    if(hints && entities){",
+							"       console.log(\"objects are present\") ",
+							"    }",
+							"    pm.environment.set(\"entities_length\", entities.length);",
+							"    ",
+							"    if (entities.length == hints.length){",
+							"        console.log(\"all records are valid\"); ",
+							"    }",
+							"    var counterEntities = 0;",
+							"    for (var key in entities) {",
+							"        if (entities.hasOwnProperty(key)) {",
+							"                console.log(key + \" -> \" + entities[key].nodeID);",
+							"                counterEntities = counterEntities + 1; ",
+							"                pm.environment.set(\"id\" + key, entities[key].nodeID);",
+							"                pm.environment.set(\"type_id\" + key, entities[key].type);",
+							"        }",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"hints\": [\n\t\t{\n\t\t\t\"type\": \"person\",\n\t\t\t\"fn\": \"Ivan\",\n\t\t\t\"ln\": \"Peric\",\n\t\t\t\"domain\": \"node.io\"\n\t\t},\n\t\t{\n\t\t\t\"type\": \"person\",\n\t\t\t\"fn\": \"Nemanja\",\n\t\t\t\"ln\": \"Nedic\",\n\t\t\t\"domain\": \"node.io\"\n\t\t},\n\t\t{\n\t\t\t\"type\": \"person\",\n\t\t\t\"fn\": \"Nemanja\",\n\t\t\t\"ln\": \"Igic\",\n\t\t\t\"domain\": \"node.io\"\n\t\t},\n\t\t{\n\t\t\"domain\": \"epicct.com\",\n\t\t\"type\": \"company\"\n\t\t\t\n\t\t},\n\t\t{\n\t\t\"domain\": \"node.io\",\n\t\t\"type\": \"company\"\n\t\t\t\n\t\t},\n\t\t{\n\t\t\"domain\": \"six-group.com\",\n\t\t\"type\": \"company\"\t\n\t\t},\n\t\t{\n\t\t\"domain\": \"apple.com\",\n\t\t\"type\": \"company\"\t\n\t\t}\n\t]\n\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/recognize",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"recognize"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Enrich NodeIds from Recognize",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f5ee35c-6091-4727-96c2-97fb22364828",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "7e231ff6-a9f9-4c98-b820-78724b5a9bf0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    ",
+							"    if( pm.response.to.have.status(200)){",
+							"",
+							"  setTimeout(function(){",
+							"          console.log(\"Sleeping for 3 seconds before next request.\");",
+							"  }, 3000);}",
+							"  ",
+							"});",
+							"var e_length = pm.environment.get(\"entities_length\");",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.requestId).to.not.be.null;",
+							"    let entities = jsonData.entities;",
+							"",
+							"     if (e_length == entities.length){",
+							"        console.log(\"all records are present\"); ",
+							"    }else{",
+							"        console.log(\"some records are missing\"); ",
+							"    }",
+							"    ",
+							"    var counterEntities = 0;",
+							"    for (var key in entities) {",
+							"        if (entities.hasOwnProperty(key)) {",
+							"            if (entities[key].type &&entities[key].nodeID){",
+							"                console.log(\"present \", entities[key].nodeID); ",
+							"            }",
+							"           ",
+							"        }",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n\t\"entities\": [\r\n\t\t{\r\n\t\t\t\"type\": \"{{type_id0}}\",\r\n\t\t\t\"nodeID\": \"{{id0}}\"\r\n\t\t},\r\n\t\t\t{\r\n\t\t\t\"type\": \"{{type_id1}}\",\r\n\t\t\t\"nodeID\": \"{{id1}}\"\r\n\t\t},\r\n\t\t\t{\r\n\t\t\t\"type\": \"{{type_id2}}\",\r\n\t\t\t\"nodeID\": \"{{id2}}\"\r\n\t\t},\r\n\t\t\t{\r\n\t\t\t\"type\": \"{{type_id3}}\",\r\n\t\t\t\"nodeID\": \"{{id3}}\"\r\n\t\t},\r\n\t\t\t{\r\n\t\t\t\"type\": \"{{type_id4}}\",\r\n\t\t\t\"nodeID\": \"{{id4}}\"\r\n\t\t},\r\n\t\t\t{\r\n\t\t\t\"type\": \"{{type_id5}}\",\r\n\t\t\t\"nodeID\": \"{{id5}}\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"type\": \"company\",\r\n\t\t\t\"nodeID\": \"C1b44df43fdb971935c537fbfda568968\"\r\n\t\t}\r\n\t\t\r\n\t\t\r\n\t]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "{{API_URL}}/enrich",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"enrich"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Predict - Companies",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "17c81de0-aa0f-4b2a-97b3-898524849f8a",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "cf3f969e-bc0f-4132-aef4-0958578daf50",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    ",
+							"    if( pm.response.to.have.status(200)){",
+							"",
+							"  setTimeout(function(){",
+							"          console.log(\"Sleeping for 3 seconds before next request.\");",
+							"  }, 3000);}",
+							"  ",
+							"});",
+							"var p_type = pm.environment.get(\"type_id4\");",
+							"var p_id = pm.environment.get(\"id4\");",
+							"var model_c = pm.globals.get(\"model_companies\");",
+							"",
+							"",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.requestId).to.not.be.null;",
+							"    let entities = jsonData.entities;",
+							"    let scores = jsonData.scores;",
+							"",
+							"            ",
+							"    var counterEntities = 0;",
+							"    for (var key in entities) {",
+							"        if (entities.hasOwnProperty(key)) {",
+							"            if (entities[key].type == p_type && entities[key].nodeID == p_id){",
+							"                console.log(\"entities object is present with valid data\"); ",
+							"            }",
+							"            if (scores[key]){",
+							"                console.log(\"score: \", scores[key]);",
+							"            }else{",
+							"                console.log(\"score is not shown\"); ",
+							"            }",
+							"        }",
+							"    }",
+							"    if (jsonData.errorMessages.length !== 0){",
+							"         console.log(\"error meesage\", jsonData.errorMessages);",
+							"    }",
+							"    ",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    if (!pm.expect(pm.response.text()).to.include(model_c, !null)){",
+							"        console.log(\"test\");",
+							"    }",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n\t\"entities\": [\r\n\t\t{\r\n\t\t\t\"type\": \"{{type_id4}}\",\r\n\t\t\t\"nodeID\": \"{{id4}}\"\r\n\t\t}\r\n\t],\r\n\t\"models\": [ \"{{model_companies}}\"]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "{{API_URL}}/predict",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"predict"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Predict - People",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dfaabff0-6669-481d-8d0c-70d3709910ad",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    ",
+							"    if( pm.response.to.have.status(200)){",
+							"",
+							"  setTimeout(function(){",
+							"          console.log(\"Sleeping for 3 seconds before next request.\");",
+							"  }, 3000);}",
+							"  ",
+							"});",
+							"var p_type = pm.environment.get(\"type_id0\");",
+							"var p_id = pm.environment.get(\"id0\");",
+							"var model_c = pm.globals.get(\"model_people\");",
+							"",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.requestId).to.not.be.null;",
+							"    let entities = jsonData.entities;",
+							"    let scores = jsonData.scores;",
+							"",
+							"            ",
+							"    var counterEntities = 0;",
+							"    for (var key in entities) {",
+							"        if (entities.hasOwnProperty(key)) {",
+							"            if (entities[key].type == p_type && entities[key].nodeID == p_id){",
+							"                console.log(\"entities object is present with valid data\"); ",
+							"            }",
+							"            if (scores[key]){",
+							"                console.log(\"score: \", scores[key]);",
+							"            }else{",
+							"                console.log(\"score is not shown\"); ",
+							"            }",
+							"        }",
+							"    }",
+							"    if (jsonData.errorMessages.length !== 0){",
+							"         console.log(\"error meesage\", jsonData.errorMessages);",
+							"    }",
+							"    ",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    if (!pm.expect(pm.response.text()).to.include(model_c, !null)){",
+							"        console.log(\"test\");",
+							"    }",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n\t\"entities\": [\r\n\t\t{\r\n\t\t\t\"type\": \"{{type_id0}}\",\r\n\t\t\t\"nodeID\": \"{{id0}}\"\r\n\t\t}\r\n\t],\r\n\t\"models\": [\"{{model_people}}\"]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "{{API_URL}}/predict",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"predict"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Find Contacts filter",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9cce51a6-3e24-48f8-bc8e-3cdc57f38a4f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.requestId).to.not.be.null;",
+							"    let nodes = jsonData.results.nodes;",
+							"    ",
+							"    var counterEntities = 0;",
+							"    for (var key in nodes) {",
+							"        if (nodes.hasOwnProperty(key)) {",
+							"            if (nodes[key].items.type && nodes[key].items.nodeID){",
+							"                pm.expect(nodes[key].items).to.not.be.null;",
+							"            }else{",
+							"                console.log(\"missing data\", nodes[key].items.type, nodes[key].items.nodeID);",
+							"            }",
+							"        }   ",
+							"    }",
+							"    console.log(nodes.length, \"people records in the list\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman."
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"filter\": \"{isIn(person.currentCompany.listId, '{{comp_list}}')}\"\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/search",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "action - Distribution",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9cce51a6-3e24-48f8-bc8e-3cdc57f38a4f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    var jsonData = pm.response.json();",
+							"         let responselist = jsonData.distribution;",
+							"    let Data = jsonData.distribution.State.Florida;",
+							"   ",
+							"",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "df407e68-f606-4881-9811-56c28eef6321",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman."
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"listId\": \"{{GPEXPRecognizeID}}\"\n}\n"
+				},
+				"url": {
+					"raw": "{{API_URL}}/distribution",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"distribution"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "7322b7d8-73c4-409f-a2b9-d3b012bf88ec",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "c0347a81-1be8-4d03-9c2f-4ecaf7bbf790",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "91533a10-d325-401c-883d-f0cc04cd4f5b",
+			"key": "API_URL",
+			"value": "https://es29twi3ed.execute-api.us-west-2.amazonaws.com/qa01",
+			"type": "string"
+		},
+		{
+			"id": "8085ae92-2206-4248-8af2-fb1ce6aa92ff",
+			"key": "API_KEY",
+			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
