@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "bec297e8-2c35-4b80-8fc3-27d8ab51fd11",
+		"_postman_id": "a3d3aaa0-c3b8-45e5-8f56-e648a396a324",
 		"name": "NFA - Health checks NO CPD (People)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -95,7 +95,6 @@
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
-							"",
 							"",
 							"pm.test(\"JSON Checking for structure\", function () {",
 							"    ",
@@ -883,7 +882,7 @@
 							"pm.test(\"Status code is 200\", function () {",
 							"});",
 							"",
-							"pm.test(\"JSON Checking for structure\", function () {",
+							"pm.test(\"actionExportPredict - JSON Checking for structure\", function () {",
 							"    var jsonData = pm.response.json();",
 							"    // pm.expect(jsonData.requestId).to.not.be.null;",
 							"    let exportJID = jsonData.jobId;",
@@ -893,9 +892,9 @@
 							"        // let currentPredictEXIDValue =  pm.environment.get(\"PredictEXID\");",
 							"        ",
 							"        pm.environment.set(\"PredictEXID\", exportJID);",
-							"        console.log(\"Current PredictEXID value:\", exportJID );",
+							"        console.log(\"Current PredictEXID value:\", pm.environment.get(\"PredictEXID\") );",
 							"    }else{",
-							"        console.log(\"PredictEXID value:\", exportJID);",
+							"        console.log(\"PredictEXID value is null:\", pm.environment.get(\"PredictEXID\"));",
 							"    }",
 							"",
 							"});",
@@ -928,7 +927,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"listId\": \"{{EXPPredictID}}\",\n\t\"pattern\": \"companies\"\n\t\n\t}\n\t\n\n\n\t\t\n"
+					"raw": "{\n\t\"listId\": \"{{EXPPredictID}}\",\n\t\"pattern\": \"people\"\n\t\n\t}\n\t\n\n\n\t\t\n"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/export/",
