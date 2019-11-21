@@ -529,6 +529,7 @@
 							"    let predJobID = jsonData.jobId;",
 							"",
 							"    pm.environment.set(\"PredictJobID\", predJobID);",
+							"    pm.expect(pm.environment.get(\"PredictJobID\")).not.to.be.null;",
 							"    ",
 							"    postman.setNextRequest(\"ResourcesJobs\");",
 							"});",
@@ -610,7 +611,8 @@
 							"    var jsonData = pm.response.json();",
 							"    let recommJobID = jsonData.jobId;",
 							"    ",
-							"pm.environment.set(\"RecommendJobID\", recommJobID);",
+							"    pm.environment.set(\"RecommendJobID\", recommJobID);",
+							"    pm.expect(pm.environment.get(\"RecommendJobID\")).not.to.be.null;",
 							"",
 							"postman.setNextRequest(\"ResourcesJobs\");",
 							"",
@@ -669,6 +671,7 @@
 						"id": "bc46de77-74db-43c5-b738-b469bc7fe217",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
 							"});",
 							"",
 							"pm.test(\"JSON Checking for structure\", function () {",
@@ -880,6 +883,7 @@
 						"id": "bc46de77-74db-43c5-b738-b469bc7fe217",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
 							"});",
 							"",
 							"pm.test(\"actionExportPredict - JSON Checking for structure\", function () {",
@@ -1079,6 +1083,7 @@
 						"id": "bc46de77-74db-43c5-b738-b469bc7fe217",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
 							"});",
 							"",
 							"pm.test(\"JSON Checking for structure\", function () {",
