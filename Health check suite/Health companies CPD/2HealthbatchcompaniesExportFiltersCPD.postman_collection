@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "dfecb56f-9ce0-4a2a-80f6-24a4f2338327",
-		"name": "NFA - Health checks Export Filters",
+		"_postman_id": "ae5c6d7c-9ea7-4683-9a1e-e0a0fdedd4d9",
+		"name": "Health batch companies Export Filters CPD",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -82,15 +82,15 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"listId\": \"{{EXPRecognizeID}}\",\n\t\"filter\":\"{{EXPfilter}}\",\n\t\"pattern\": \"companies\"\n\t\n\t}\n\t\n\n\n\t\t\n"
+					"raw": "{\n\t\"listId\": \"{{GEXPRecognizeID}}\",\n\t\"filter\":\"{{EXPfilter}}\",\n\t\"pattern\": \"companies\"\n\t\n\t}\n\t\n\n\n\t\t\n"
 				},
 				"url": {
-					"raw": "{{API_URL}}/action/export/",
+					"raw": "{{API_URL}}/batch/export/",
 					"host": [
 						"{{API_URL}}"
 					],
 					"path": [
-						"action",
+						"batch",
 						"export",
 						""
 					]
@@ -167,7 +167,7 @@
 						"exec": [
 							" setTimeout(function(){",
 							"          console.log(\"Sleeping for 60 seconds before next request.\");",
-							"  }, 120000);"
+							"  }, 60000);"
 						],
 						"type": "text/javascript"
 					}
@@ -266,28 +266,31 @@
 	],
 	"variable": [
 		{
-			"id": "60521c86-3f12-4441-913f-e2ba2b4dad79",
+			"id": "5cc2f75c-b97b-40b6-ad8a-e973e3157845",
 			"key": "API_URL",
-			"value": "https://api.uat.node-ops.net",
-			"type": "string"
+			"value": "https://es29twi3ed.execute-api.us-west-2.amazonaws.com/qa01",
+			"type": "string",
+			"disabled": true
 		},
 		{
-			"id": "3914bd26-a31c-438c-8c03-e23dfccc42d6",
+			"id": "b19ac03b-b900-4ea9-a104-ea8ef43dab9b",
 			"key": "API_KEY",
-			"value": "sA5GcUebJY2dLRP60VsDj6mG5l3vadli8HAOg47N",
-			"type": "string"
+			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
+			"type": "string",
+			"disabled": true
 		},
 		{
-			"id": "9233122f-1483-4b7d-b51f-346534635a18",
+			"id": "d4c92b77-9e4e-47ce-9e6d-a0e50db1b5b0",
 			"key": "API_KEY_NEW",
 			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
 			"type": "string"
 		},
 		{
-			"id": "c6aa1844-36e2-471c-8afa-e3dcb0863c43",
+			"id": "b4f29780-6f33-4979-9d38-16010a0f9bf0",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }

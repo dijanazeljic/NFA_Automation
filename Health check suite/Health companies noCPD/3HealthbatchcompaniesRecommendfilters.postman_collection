@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "ff7a6d12-f06a-4fbf-9c46-d30d406e2b04",
-		"name": "NFA - Health checks Recommend filters (People)",
+		"_postman_id": "8baf976b-1cc0-4d20-b64b-25719969597e",
+		"name": "Health batch companies Recommend filters",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -84,7 +84,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"modelId\":\"{{ModelID}}\",\n\"maxCount\": 10,\n\"filter\": \"{{RECfilter}}\"\n\t\n}"
+					"raw": "{\"modelId\":\"{{GModelIDNOCPD}}\",\n\"maxCount\": 10,\n\"filter\": \"{{RECfilter}}\"\n\t\n}"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/recommend",
@@ -454,25 +454,25 @@
 	],
 	"variable": [
 		{
-			"id": "a5507d8a-7349-4717-9586-71f4cba385f7",
+			"id": "84e9e957-fb87-4358-bd4e-c0e93f6d8713",
 			"key": "API_URL",
 			"value": "https://es29twi3ed.execute-api.us-west-2.amazonaws.com/qa01",
 			"type": "string"
 		},
 		{
-			"id": "1645240a-f1ee-4927-935e-6c02542caa8d",
+			"id": "2062ed66-50eb-4331-9527-7af132d3a043",
 			"key": "API_KEY",
 			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
 			"type": "string"
 		},
 		{
-			"id": "2064699e-6a9e-403c-8149-ba0af6676209",
+			"id": "57cf0060-5876-43c6-a43e-792939951efe",
 			"key": "API_KEY_NEW",
 			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
 			"type": "string"
 		},
 		{
-			"id": "2650c622-2f47-4882-b99d-3c15f6fb38b6",
+			"id": "15af60ea-9ed5-4840-8bd7-e43d752e0818",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"

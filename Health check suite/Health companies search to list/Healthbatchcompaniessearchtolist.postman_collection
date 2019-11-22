@@ -1,36 +1,32 @@
 {
 	"info": {
-		"_postman_id": "940593ca-e928-4963-b53a-691e38da7faf",
-		"name": "Smoke test suite older models",
+		"_postman_id": "a9ad2798-901c-48e5-86a6-95c441ff076b",
+		"name": "Health batch companies search to list",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "action - Recognize",
+			"name": "action - Search To List",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "0214cee2-adf3-48af-8743-932d4708cf12",
+						"id": "9cce51a6-3e24-48f8-bc8e-3cdc57f38a4f",
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"    ",
-							"    if( pm.response.to.have.status(200)){",
-							"",
-							"  setTimeout(function(){",
-							"          console.log(\"Sleeping for 3 seconds before next request.\");",
-							"  }, 3000);}",
-							"",
-							"});",
 							"",
 							"pm.test(\"JSON Checking for structure\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.requestId).to.not.be.null;",
-							"    let recognizeJID = jsonData.jobId;",
+							"    pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"    let stlJobID = jsonData.jobId;",
+							"    pm.environment.set(\"STLJOBID\", stlJobID);",
+							"    ",
+							" ",
 							"    ",
 							"",
-							"pm.environment.set(\"RecognizeJOBID\", recognizeJID);",
+							"   ",
+							"    ",
 							"",
 							"});",
 							""
@@ -41,8 +37,9 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "e3d83283-3212-4ac0-88a6-a68b63505d04",
+						"id": "96c87712-1d1d-4a80-97d4-84398aae3ed8",
 						"exec": [
+							"",
 							""
 						],
 						"type": "text/javascript"
@@ -72,16 +69,16 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n \"name\": \"vladimirTestAutomation-{{$randomInt}}-{{$timestamp}}NOCPD\",\n \"pattern\": \"companies\",\n\"records\": [\n{\"hints\": [{\"type\": \"company\", \"domain\": \"cdw.com\", \"email\": \"chris.wilder@cdw.com\", \"nash\": \"C328947154caf931859dbd68988391a1a\"}]},\n{\"hints\": [{\"type\": \"company\", \"domain\": \"fblfinancial.com\", \"email\": \"joseph.fortelka@fblfinancial.com\", \"nash\": \"C19df245c3e8bb3ed3308e8e55816c33b\"}]},\n{\"hints\": [{\"type\": \"company\", \"domain\": \"clorox.com\", \"email\": \"jason.mcneil@clorox.com\", \"nash\": \"C8914edb044fba74a2b164bc1e48951b7\"}]},\n{\"hints\": [{\"type\": \"company\", \"domain\": \"clorox.com\", \"email\": \"juan.calderon@clorox.com\", \"nash\": \"C8914edb044fba74a2b164bc1e48951b7\"}]},\n{\"hints\": [{\"type\": \"company\", \"domain\": \"homeownershipsf.org\", \"email\": \"shannon@homeownershipsf.org\", \"nash\": \"C42d0f70434d3c836aad36eb10a175475\"}]},\n{\"hints\": [{\"type\": \"company\", \"domain\": \"paupackhills.com\", \"email\": \"rbarsh@paupackhills.com\", \"nash\": \"Cc43c93bd6299fa6b81629798c9ebbde5\"}]},\n{\"hints\": [{\"type\": \"company\", \"domain\": \"handsonscv.org\", \"email\": \"bcevallos@handsonscv.org\", \"nash\": \"C570f18e00c91c52d18bac5e350285d10\"}]}\n]\n}"
+					"raw": "{\n    \"listName\": \"NewTestList-{{$timestamp}}\",\n    \"filter\":\"{ all { isIn(company.listId, '66f6c31d-c40f-4687-b9d3-cdfecb1681ba'); isIn(company.state, 'California'); } }\"\n}"
 				},
 				"url": {
-					"raw": "{{API_URL}}/batch/recognize",
+					"raw": "{{API_URL}}/batch/search",
 					"host": [
 						"{{API_URL}}"
 					],
 					"path": [
 						"batch",
-						"recognize"
+						"search"
 					]
 				}
 			},
@@ -91,9 +88,65 @@
 			"name": "ResourcesJobs",
 			"event": [
 				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fd2cd9df-52b8-44aa-a7e8-07fe2a5cac72",
+						"exec": [
+							"var recjobID = pm.environment.get(\"RecognizeJOBID\");",
+							"console.log(\"rec\",recjobID);",
+							"var modjobID = pm.environment.get(\"ModelJobID\");",
+							"console.log(\"mod\", modjobID);",
+							"var prejobID = pm.environment.get(\"PredictJobID\");",
+							"console.log(\"pred\", prejobID);",
+							"var recommjobID = pm.environment.get(\"RecommendJobID\");",
+							"console.log(\"recomm\",recommjobID);",
+							"var STjobID = pm.environment.get(\"STLJOBID\");",
+							"console.log(\"ST\",STjobID);",
+							"",
+							"if(recjobID) {",
+							"     setTimeout(function(){",
+							"          console.log(\"Sleeping for 60 seconds before next request.\");",
+							"  }, 60000);",
+							"   pm.environment.set(\"id\",\"{{RecognizeJOBID}}\");",
+							"  ",
+							"}else if(modjobID)",
+							"{",
+							"     setTimeout(function(){",
+							"          console.log(\"Sleeping for 60 seconds before next request.\");",
+							"  }, 60000);",
+							"     pm.environment.set(\"id\",\"{{ModelJobID}}\");",
+							"}",
+							"else if(prejobID)",
+							"{",
+							"    setTimeout(function(){",
+							"          console.log(\"Sleeping for 60 seconds before next request.\");",
+							"  }, 60000);",
+							"     pm.environment.set(\"id\",\"{{PredictJobID}}\");",
+							"}",
+							"else if(recommjobID)",
+							"{",
+							"        setTimeout(function(){",
+							"          console.log(\"Sleeping for 60 seconds before next request.\");",
+							"  }, 60000);",
+							"",
+							"     pm.environment.set(\"id\",\"{{RecommendJobID}}\");",
+							"}",
+							"else if(STjobID)",
+							"{",
+							"        setTimeout(function(){",
+							"          console.log(\"Sleeping for 60 seconds before next request.\");",
+							"  }, 60000);",
+							"",
+							"     pm.environment.set(\"id\",\"{{STLJOBID}}\");",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
 					"listen": "test",
 					"script": {
-						"id": "da7cb6f2-e6c8-4db3-8a0a-0a91b9a57491",
+						"id": "d8abe900-fe1f-4123-88b1-6095d4c08889",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -113,6 +166,8 @@
 							"console.log(\"pred\",prejobID);",
 							"var recommjobID = pm.environment.get(\"RecommendJobID\");",
 							"console.log(\"recomm\",recommjobID);",
+							"var STjobID = pm.environment.get(\"STLJOBID\");",
+							"console.log(\"ST\",STjobID);",
 							"    ",
 							"    if(recjobID)",
 							"    {",
@@ -148,7 +203,7 @@
 							"     let peroPL = pm.environment.get(\"PredictTargetList\");",
 							"console.log(\"PEROPL\",peroPL);",
 							"    pm.environment.unset(\"PredictJobID\");",
-							"    ",
+							"    postman.setNextRequest(\"actionCreateModel\");",
 							"    ",
 							"    }",
 							"    else if(recommjobID)",
@@ -160,8 +215,19 @@
 							"       pm.environment.set(\"RecommendTargetList\", recommTargetlistID);",
 							"       let peroRL = pm.environment.get(\"RecommendTargetList\");",
 							"       console.log(\"RecommendTargetList\",peroRL);",
+							"        postman.setNextRequest(\"actionCreateModel\");",
 							"    ",
 							"    pm.environment.unset(\"RecommendJobID\");",
+							"    }",
+							"    else if(STjobID)",
+							"    {",
+							"         setTimeout(function(){",
+							"          console.log(\"Sleeping for 60 seconds before next request.\");",
+							"  }, 60000);",
+							"    let targetlistID = jsonData.results.jobs[0].targetListId;",
+							"    pm.environment.set(\"RecognizeTargetList\", targetlistID);",
+							"    pm.environment.unset(\"RecognizeJOBID\");",
+							"    postman.setNextRequest(\"actionCreateModel\");",
 							"    }",
 							"    else{",
 							"        postman.setNextRequest(null);",
@@ -169,52 +235,6 @@
 							"",
 							"});",
 							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "d44e4780-448d-4da8-827a-faa0c3bb0f34",
-						"exec": [
-							"var recjobID = pm.environment.get(\"RecognizeJOBID\");",
-							"console.log(\"rec\",recjobID);",
-							"var modjobID = pm.environment.get(\"ModelJobID\");",
-							"console.log(\"mod\", modjobID);",
-							"var prejobID = pm.environment.get(\"PredictJobID\");",
-							"console.log(\"pred\", prejobID);",
-							"var recommjobID = pm.environment.get(\"RecommendJobID\");",
-							"console.log(\"recomm\",recommjobID);",
-							"",
-							"if(recjobID) {",
-							"     setTimeout(function(){",
-							"          console.log(\"Sleeping for 60 seconds before next request.\");",
-							"  }, 60000);",
-							"   pm.environment.set(\"id\",\"{{RecognizeJOBID}}\");",
-							"  ",
-							"}else if(modjobID)",
-							"{",
-							"     setTimeout(function(){",
-							"          console.log(\"Sleeping for 60 seconds before next request.\");",
-							"  }, 60000);",
-							"     pm.environment.set(\"id\",\"{{ModelJobID}}\");",
-							"}",
-							"else if(prejobID)",
-							"{",
-							"    setTimeout(function(){",
-							"          console.log(\"Sleeping for 60 seconds before next request.\");",
-							"  }, 60000);",
-							"     pm.environment.set(\"id\",\"{{PredictJobID}}\");",
-							"}",
-							"else if(recommjobID)",
-							"{",
-							"        setTimeout(function(){",
-							"          console.log(\"Sleeping for 60 seconds before next request.\");",
-							"  }, 60000);",
-							"",
-							"     pm.environment.set(\"id\",\"{{RecommendJobID}}\");",
-							"}"
 						],
 						"type": "text/javascript"
 					}
@@ -243,14 +263,14 @@
 					}
 				],
 				"url": {
-					"raw": "{{API_URL}}/resources/jobs/c08412e2-1d77-4a78-b3fd-ad976389c1f6?",
+					"raw": "{{API_URL}}/resources/jobs/?id={{id}}",
 					"host": [
 						"{{API_URL}}"
 					],
 					"path": [
 						"resources",
 						"jobs",
-						"c08412e2-1d77-4a78-b3fd-ad976389c1f6"
+						""
 					],
 					"query": [
 						{
@@ -277,6 +297,10 @@
 							"key": "category",
 							"value": "export",
 							"disabled": true
+						},
+						{
+							"key": "id",
+							"value": "{{id}}"
 						}
 					]
 				}
@@ -474,7 +498,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"modelId\":\"f6feb1fa-0d25-4b69-926a-d32ddb9f5d34\",\n    \"listId\": \"{{EXPRecognizeID}}\"\n}\n"
+					"raw": "{\n    \"modelId\":\"{{ModelID}}\",\n    \"listId\": \"{{EXPRecognizeID}}\"\n}\n"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/predict",
@@ -539,7 +563,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"modelId\":\"8542f19c-8d22-4120-b7c0-bfcfe62ee577\", \"maxCount\": 100}"
+					"raw": "{\"modelId\":\"{{ModelID}}\",\"maxCount\": 100}"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/recommend",
@@ -549,209 +573,6 @@
 					"path": [
 						"batch",
 						"recommend"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "actionexport",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "bc46de77-74db-43c5-b738-b469bc7fe217",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"});",
-							"",
-							"pm.test(\"JSON Checking for structure\", function () {",
-							"",
-							"    var jsonData = pm.response.json();",
-							"    let exportID = jsonData.jobId;",
-							"    pm.environment.set(\"EXPRecID\", exportID);",
-							"   postman.setNextRequest(\"actionExportPredict\");",
-							"});",
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "6d2fde3e-759a-47e9-8d5d-b9b95db57bf3",
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman."
-					},
-					{
-						"key": "x-api-key",
-						"type": "text",
-						"value": "{{API_KEY}}"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"listId\": \"{{EXPRecognizeID}}\",\n\t\"pattern\": \"companies\"\n\t\n\t}\n\t\n\n\n\t\t\n"
-				},
-				"url": {
-					"raw": "{{API_URL}}/batch/export/",
-					"host": [
-						"{{API_URL}}"
-					],
-					"path": [
-						"batch",
-						"export",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "actionExportPredict",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "bc46de77-74db-43c5-b738-b469bc7fe217",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"});",
-							"",
-							"pm.test(\"JSON Checking for structure\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.requestId).to.not.be.null;",
-							"    let exportJID = jsonData.jobId;",
-							"    ",
-							"",
-							"pm.environment.set(\"PredictEXID\", exportJID);",
-							"postman.setNextRequest(\"actionExportRecommend\");",
-							"",
-							"});",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman."
-					},
-					{
-						"key": "x-api-key",
-						"type": "text",
-						"value": "{{API_KEY}}"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"listId\": \"{{EXPPredictID}}\",\n\t\"pattern\": \"companies\"\n\t\n\t}\n\t\n\n\n\t\t\n"
-				},
-				"url": {
-					"raw": "{{API_URL}}/batch/export/",
-					"host": [
-						"{{API_URL}}"
-					],
-					"path": [
-						"batch",
-						"export",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "actionExportRecommend",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "bc46de77-74db-43c5-b738-b469bc7fe217",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"});",
-							"",
-							"pm.test(\"JSON Checking for structure\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.requestId).to.not.be.null;",
-							"    let exID = jsonData.jobId;",
-							"pm.environment.set(\"ReccomendEXID\", exID);",
-							"",
-							"",
-							"});",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman."
-					},
-					{
-						"key": "x-api-key",
-						"type": "text",
-						"value": "{{API_KEY}}"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"listId\": \"{{EXPRecommendID}}\",\n\t\"pattern\": \"companies\"\n\t\n\t}\n\t\n\n\n\t\t\n"
-				},
-				"url": {
-					"raw": "{{API_URL}}/batch/export/",
-					"host": [
-						"{{API_URL}}"
-					],
-					"path": [
-						"batch",
-						"export",
-						""
 					]
 				}
 			},
@@ -782,25 +603,27 @@
 	],
 	"variable": [
 		{
-			"id": "563dfc8e-6838-46fd-ae6b-ef96a0db101b",
+			"id": "249e3283-a89b-4b89-8796-9cdcf16b24dd",
 			"key": "API_URL",
 			"value": "https://es29twi3ed.execute-api.us-west-2.amazonaws.com/qa01",
-			"type": "string"
+			"type": "string",
+			"disabled": true
 		},
 		{
-			"id": "2ab77018-05de-4462-9ad1-8afc9352f05f",
+			"id": "31a16c61-7eb6-421c-a9e4-719c748f2290",
 			"key": "API_KEY",
+			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"id": "5d4c820c-f157-4885-91e2-af6a6572a94d",
+			"key": "API_KEY_NEW",
 			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
 			"type": "string"
 		},
 		{
-			"id": "9c79e88c-2a7b-47a8-b5fb-7a6ce247ff29",
-			"key": "API_KEY_NEW",
-			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
-			"type": "string"
-		},
-		{
-			"id": "3bdab808-e64c-4448-860d-bcdf8b07c4f5",
+			"id": "b278360e-51b5-416a-84b6-031fa92f60ab",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"

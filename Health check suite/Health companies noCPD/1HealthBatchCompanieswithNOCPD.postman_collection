@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "80cfa56c-8d9d-4c90-86c4-130e7f9e6b8c",
-		"name": "NFA - Health checks NO CPD ",
+		"_postman_id": "e34b1c57-3816-413b-851a-9da9cd1273ba",
+		"name": "Health Batch Companies with NOCPD",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -119,6 +119,10 @@
 							"         setTimeout(function(){",
 							"          console.log(\"Sleeping for 60 seconds before next request.\");",
 							"  }, 60000);",
+							"    pm.test(\"Number of records\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(Object.keys(jsonData.results.jobs[0]).length).to.eql(10);",
+							"    }); ",
 							"    let targetlistID = jsonData.results.jobs[0].targetListId;",
 							"    pm.environment.set(\"RecognizeTargetList\", targetlistID);",
 							"    pm.environment.unset(\"RecognizeJOBID\");",
@@ -129,8 +133,13 @@
 							"    setTimeout(function(){",
 							"          console.log(\"Sleeping for 60 seconds before next request.\");",
 							"  }, 60000);",
+							"    pm.test(\"Number of records\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(Object.keys(jsonData.results.jobs[0]).length).to.eql(10);",
+							"    }); ",
 							"    let ModID = jsonData.results.jobs[0].modelId;",
 							"    pm.environment.set(\"ModelID\",ModID);",
+							"    pm.globals.set(\"GModelIDNOCPD\",ModID);",
 							"    let pero = pm.environment.get(\"ModelID\");",
 							"console.log(\"PERO\",pero);",
 							"    pm.environment.unset(\"ModelJobID\");",
@@ -140,11 +149,12 @@
 							"    }",
 							"    else if(prejobID)",
 							"    {",
-							"       ",
+							"    pm.test(\"Number of records\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(Object.keys(jsonData.results.jobs[0]).length).to.eql(11);",
+							"    });     ",
 							"   let PredTargetlistID = jsonData.results.jobs[0].targetListId;",
 							"    pm.environment.set(\"PredictTargetList\", PredTargetlistID);",
-							"    let ModID = jsonData.results.jobs[0].modelId;",
-							"    pm.environment.set(\"ModelID\",ModID);",
 							"     let peroPL = pm.environment.get(\"PredictTargetList\");",
 							"console.log(\"PEROPL\",peroPL);",
 							"    pm.environment.unset(\"PredictJobID\");",
@@ -152,10 +162,15 @@
 							"    ",
 							"    }",
 							"    else if(recommjobID)",
-							"    {",
+							"    ",
+							"   {",
 							"         setTimeout(function(){",
 							"          console.log(\"Sleeping for 60 seconds before next request.\");",
 							"  }, 60000);",
+							"   pm.test(\"Number of records\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(Object.keys(jsonData.results.jobs[0]).length).to.eql(11);",
+							"    });     ",
 							"   let recommTargetlistID = jsonData.results.jobs[0].targetListId;",
 							"       pm.environment.set(\"RecommendTargetList\", recommTargetlistID);",
 							"       let peroRL = pm.environment.get(\"RecommendTargetList\");",
@@ -212,7 +227,7 @@
 							"{",
 							"        setTimeout(function(){",
 							"          console.log(\"Sleeping for 60 seconds before next request.\");",
-							"  }, 60000);",
+							"  }, 120000);",
 							"",
 							"     pm.environment.set(\"id\",\"{{RecommendJobID}}\");",
 							"}"
@@ -320,6 +335,7 @@
 							"    pm.environment.set(\"ModelJobID\",ModJobID);",
 							"    let exportrecognizeID = pm.environment.get(\"RecognizeTargetList\");",
 							"    pm.environment.set(\"EXPRecognizeID\",exportrecognizeID);",
+							"    pm.globals.set(\"GEXPRecognizeIDNOCPD\",exportrecognizeID);",
 							"    pm.environment.unset(\"RecognizeTargetList\");",
 							"    postman.setNextRequest(\"ResourcesJobs\");",
 							"",
@@ -404,7 +420,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\":\"VladimirnewlistModel{{$timestamp}}\",\n    \"listId\":\"{{TargetList}}\",\n    \"pattern\":\"companies\",\n    \"purpose\": \"new_attendee\",\n    \"description\": \"same stuff\"\n}\n"
+					"raw": "{\n    \"name\":\"VladimirnewlistModel{{$timestamp}}\",\n    \"listId\":\"{{TargetList}}\",\n    \"pattern\":\"companies\",\n    \"purpose\": \"new_attendee\",\n    \"description\": \"same stuff\",\n    \"params\": {\n        \"minimumPositiveAccuracy\":0.7,\n        \"minimumNegativeAccuracy\":0.2\n\t}\n}\n"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/createmodel",
@@ -1184,175 +1200,6 @@
 				}
 			},
 			"response": []
-		},
-		{
-			"name": "action - Count Entities",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "d823a02d-a311-4771-a8ec-c0415c9c88d1",
-						"exec": [
-							"var CEfilters = pm.environment.get(\"CEfilters\");",
-							"if (!CEfilters) {",
-							"   CEfilters = [\"{ range(company.size, 0, 5) }\", \"{ has(company.industry) }\", \"{ isIn(company.country, 'United States') }\"];",
-							"}",
-							"console.log(\"CEprfil\",CEfilters);",
-							"var CEcurrentFilter = CEfilters.shift();",
-							"pm.environment.set('CEfilter', CEcurrentFilter);",
-							"pm.environment.set('CEfilters', CEfilters);",
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "1276b03d-9898-457b-bd2b-087df5f113d7",
-						"exec": [
-							"pm.test(\"JSON Checking for structure\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    var counter = pm.globals.get(\"counter\");",
-							"    console.log(counter);",
-							"",
-							"    var CEfilter = pm.environment.get(\"CEfilter\");",
-							"    console.log(\"CEfilter\",CEfilter);",
-							"    if (CEfilter && CEfilter.length > 0) {",
-							"    pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"    let ceJobID = jsonData.totalCount;",
-							"    pm.environment.set(\"CEJOBID\" + counter, ceJobID);",
-							"    let CEJOBID= pm.environment.get(\"CEJOBID\" + counter);",
-							"    console.log(CEJOBID);",
-							"    postman.setNextRequest(\"action - Count Entities\");",
-							"    console.log(\"COUNTER: \" + counter++);",
-							"    pm.globals.set(\"counter\", counter++);",
-							"   ",
-							"} else {",
-							"    pm.test(\"Status code is 400\", function () {",
-							"    pm.response.to.have.status(400);",
-							"});",
-							"}",
-							"   ",
-							"    ",
-							"",
-							"});",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman."
-					},
-					{
-						"key": "x-api-key",
-						"type": "text",
-						"value": "{{API_KEY}}"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"filter\": \"{{CEfilter}}\"\n}\n"
-				},
-				"url": {
-					"raw": "{{API_URL}}/countEntities",
-					"host": [
-						"{{API_URL}}"
-					],
-					"path": [
-						"countEntities"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "action - Distribution",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "9cce51a6-3e24-48f8-bc8e-3cdc57f38a4f",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"pm.test(\"JSON Checking for structure\", function () {",
-							"    var jsonData = pm.response.json();",
-							"         let responselist = jsonData.distribution;",
-							"    let Data = jsonData.distribution.State.Florida;",
-							"   ",
-							"",
-							"});",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "df407e68-f606-4881-9811-56c28eef6321",
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman."
-					},
-					{
-						"key": "x-api-key",
-						"type": "text",
-						"value": "{{API_KEY}}"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"listId\": \"{{EXPRecognizeID}}\"\n}\n"
-				},
-				"url": {
-					"raw": "{{API_URL}}/distribution",
-					"host": [
-						"{{API_URL}}"
-					],
-					"path": [
-						"distribution"
-					]
-				}
-			},
-			"response": []
 		}
 	],
 	"event": [
@@ -1379,25 +1226,27 @@
 	],
 	"variable": [
 		{
-			"id": "f4fa582c-0568-48b6-b8cd-78050e5cb90b",
+			"id": "5e01f8fe-a68b-4a8f-b7da-72214b73d182",
 			"key": "API_URL",
 			"value": "https://es29twi3ed.execute-api.us-west-2.amazonaws.com/qa01",
-			"type": "string"
+			"type": "string",
+			"disabled": true
 		},
 		{
-			"id": "5c4c6efb-a0b2-4258-a72d-d8e1ee4f162b",
+			"id": "683630d8-8444-4ed8-b2b2-176f2df314ce",
 			"key": "API_KEY",
 			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
-			"type": "string"
+			"type": "string",
+			"disabled": true
 		},
 		{
-			"id": "1288118e-a637-48d4-a0ee-9feda6de98a1",
+			"id": "96dd7a9a-ce6a-4118-8e56-80373d0cf736",
 			"key": "API_KEY_NEW",
 			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
 			"type": "string"
 		},
 		{
-			"id": "b783284a-2b47-408c-b76d-bf117c554de4",
+			"id": "ffc09d8e-5b1b-424a-be20-264b316322d5",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"

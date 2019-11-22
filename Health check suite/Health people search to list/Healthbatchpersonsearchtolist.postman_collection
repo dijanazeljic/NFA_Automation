@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "4f30f7c7-a7fc-4d04-a843-0d1af6bda5ff",
-		"name": "Smoke test search to list company",
+		"_postman_id": "e5e7f9ad-6601-44d9-bc3e-b9ce22f2a8eb",
+		"name": "Health batch person search to list",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -22,7 +22,8 @@
 							"    let stlJobID = jsonData.jobId;",
 							"    pm.environment.set(\"STLJOBID\", stlJobID);",
 							"    ",
-							"",
+							" ",
+							"    ",
 							"",
 							"   ",
 							"    ",
@@ -39,12 +40,6 @@
 						"id": "96c87712-1d1d-4a80-97d4-84398aae3ed8",
 						"exec": [
 							"",
-							"   STLfilters = [\"{ all { isIn(person.listId, 'fdb39404-2d81-436b-b57c-5c0f1956c0db'); isIn(person.city, 'Dallas');} }\"];",
-							"",
-							"console.log(\"STLprfil\",STLfilters);",
-							"var STLcurrentFilter = STLfilters.shift();",
-							"pm.environment.set('STLfilter', STLcurrentFilter);",
-							"pm.environment.set('STLfilters', STLfilters);",
 							""
 						],
 						"type": "text/javascript"
@@ -74,7 +69,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"listName\": \"NewTestList-{{$timestamp}}\",\n    \"filter\":\"{ all{isIn(company.listId, 'e09bde1c-6886-4686-ae23-f3ac9198ab24') } }\"\n}\n"
+					"raw": "{\n    \"listName\": \"NewTestList-{{$timestamp}}\",\n    \"filter\":\"{ all{isIn(person.listId, '581194ea-fe8b-4869-8ed8-16127b3e1889'); isIn(person.country, 'United States');}}\"\n}\n"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/search",
@@ -428,7 +423,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\":\"VladimirnewlistModel{{$timestamp}}\",\n    \"listId\":\"{{TargetList}}\",\n    \"pattern\":\"companies\",\n    \"purpose\": \"new_attendee\",\n    \"description\": \"same stuff\"\n}\n"
+					"raw": "{\n    \"name\":\"VladimirnewlistModel{{$timestamp}}\",\n    \"listId\":\"{{TargetList}}\",\n    \"pattern\":\"people\",\n    \"purpose\": \"new_attendee\",\n    \"description\": \"same stuff\"\n}\n"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/createmodel",
@@ -568,7 +563,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"modelId\":\"8542f19c-8d22-4120-b7c0-bfcfe62ee577\",\"maxCount\": 100}"
+					"raw": "{\"modelId\":\"{{ModelID}}\",\"maxCount\": 100}"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/recommend",
@@ -608,25 +603,27 @@
 	],
 	"variable": [
 		{
-			"id": "eec9cf20-a623-4f03-8c25-0b43aca5004d",
+			"id": "810ae85c-1ed6-463b-8b37-549c4cb2a228",
 			"key": "API_URL",
 			"value": "https://es29twi3ed.execute-api.us-west-2.amazonaws.com/qa01",
-			"type": "string"
+			"type": "string",
+			"disabled": true
 		},
 		{
-			"id": "852c9551-d500-4a97-8263-b685a5476c2b",
+			"id": "f9470726-459b-4323-8b0e-1f5a4f7ef03b",
 			"key": "API_KEY",
 			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
-			"type": "string"
+			"type": "string",
+			"disabled": true
 		},
 		{
-			"id": "ed83fbca-e7ad-471d-856a-d99d2d9de3d0",
+			"id": "cb843f7f-774b-40bc-8606-f47405f855c3",
 			"key": "API_KEY_NEW",
 			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
 			"type": "string"
 		},
 		{
-			"id": "5dd1143c-c682-481d-b25d-55d9213fc136",
+			"id": "7e0808d6-8e04-4666-b1d5-0cdb60a6d9c5",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"

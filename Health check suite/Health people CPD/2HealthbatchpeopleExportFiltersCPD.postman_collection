@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "eddb71dd-a674-465f-ac75-50b45a4b5417",
-		"name": "NFA - Health checks Export Filters (People)",
+		"_postman_id": "171bac75-07c9-4fcd-a56d-4abb406b47c9",
+		"name": "Health batch people Export Filters CPD",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -82,15 +82,15 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"listId\": \"{{EXPRecognizeID}}\",\n\t\"filter\":\"{{EXPfilter}}\",\n\t\"pattern\": \"people\"\n\t\n\t}\n\t\n\n\n\t\t\n"
+					"raw": "{\n\t\"listId\": \"{{GPEXPRecognizeID}}\",\n\t\"filter\":\"{{EXPfilter}}\",\n\t\"pattern\": \"people\"\n\t\n\t}\n\t\n\n\n\t\t\n"
 				},
 				"url": {
-					"raw": "{{API_URL}}/action/export/",
+					"raw": "{{API_URL}}/batch/export/",
 					"host": [
 						"{{API_URL}}"
 					],
 					"path": [
-						"action",
+						"batch",
 						"export",
 						""
 					]
@@ -253,28 +253,31 @@
 	],
 	"variable": [
 		{
-			"id": "068361a4-62a6-4a71-affb-3acb7ecc1a4a",
+			"id": "71ccd2b4-3d40-4e43-ab46-659c835196e0",
 			"key": "API_URL",
-			"value": "https://api.uat.node-ops.net",
-			"type": "string"
+			"value": "https://es29twi3ed.execute-api.us-west-2.amazonaws.com/qa01",
+			"type": "string",
+			"disabled": true
 		},
 		{
-			"id": "db4662f1-2e26-4cf7-8617-f733ee686ca0",
+			"id": "a6516efc-5ca9-4a89-8eb6-662ab775d00a",
 			"key": "API_KEY",
-			"value": "sA5GcUebJY2dLRP60VsDj6mG5l3vadli8HAOg47N",
-			"type": "string"
+			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
+			"type": "string",
+			"disabled": true
 		},
 		{
-			"id": "afc23dc1-69e4-4c5d-92ec-b571025fec23",
+			"id": "cfb05fa7-c55e-46e7-9bf7-ad0a80806a86",
 			"key": "API_KEY_NEW",
 			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
 			"type": "string"
 		},
 		{
-			"id": "a5412774-e234-4997-9fcf-cac5a1afd421",
+			"id": "8c4698f2-a7b7-4cae-9b66-298d2198cbf9",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }

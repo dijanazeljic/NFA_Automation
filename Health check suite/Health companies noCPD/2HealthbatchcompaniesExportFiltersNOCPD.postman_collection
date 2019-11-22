@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "eddb71dd-a674-465f-ac75-50b45a4b5417",
-		"name": "NFA - Health checks Export Filters (People)",
+		"_postman_id": "581909ce-a9bf-4a66-baef-e67635fcf811",
+		"name": "Health batch companies Export Filters NOCPD",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -82,7 +82,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"listId\": \"{{EXPRecognizeID}}\",\n\t\"filter\":\"{{EXPfilter}}\",\n\t\"pattern\": \"people\"\n\t\n\t}\n\t\n\n\n\t\t\n"
+					"raw": "{\n\t\"listId\": \"{{GEXPRecognizeIDNOCPD}}\",\n\t\"filter\":\"{{EXPfilter}}\",\n\t\"pattern\": \"companies\"\n\t\n\t}\n\t\n\n\n\t\t\n"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/export/",
@@ -138,6 +138,19 @@
 							"    pm.expect(pm.response.text()).to.include(testCustomData);",
 							"});",
 							"    ",
+							"});",
+							"",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    ",
+							"     var jsonData = pm.response.json();",
+							"    let responselist = jsonData.data;",
+							"    let customerData = jsonData.data[0].data[0].company;",
+							"    pm.environment.set(\"cusData\", customerData);",
+							"    ",
+							"    testCustomData = pm.variables.get(\"cusData\");",
+							"   pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(testCustomData);",
+							"});",
 							"    ",
 							"});",
 							"",
@@ -154,7 +167,7 @@
 						"exec": [
 							" setTimeout(function(){",
 							"          console.log(\"Sleeping for 60 seconds before next request.\");",
-							"  }, 120000);"
+							"  }, 60000);"
 						],
 						"type": "text/javascript"
 					}
@@ -253,25 +266,27 @@
 	],
 	"variable": [
 		{
-			"id": "4ea1c2f3-4554-4649-adf7-3ff891fcb94e",
+			"id": "261c4d44-6c03-46ce-8216-4545f9795086",
 			"key": "API_URL",
 			"value": "https://es29twi3ed.execute-api.us-west-2.amazonaws.com/qa01",
-			"type": "string"
+			"type": "string",
+			"disabled": true
 		},
 		{
-			"id": "0c11d2ed-4ef1-43ca-aca5-8a788eaead92",
+			"id": "d5f00a42-ce12-4314-b0bd-50a5c123ab66",
 			"key": "API_KEY",
 			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
-			"type": "string"
+			"type": "string",
+			"disabled": true
 		},
 		{
-			"id": "e88269de-2174-43ed-b975-2ef697fbe2be",
+			"id": "169c4087-0d05-4192-9b6e-c9d31ff85ff2",
 			"key": "API_KEY_NEW",
 			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
 			"type": "string"
 		},
 		{
-			"id": "036dcd9d-1a12-4236-be9a-051609435063",
+			"id": "8d99429d-7997-4cc5-98e6-5bf838adfa53",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"
