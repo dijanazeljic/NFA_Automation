@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6b92ad3f-19d2-43a8-90ab-2ecd1b62db77",
+		"_postman_id": "b6c2e8ba-d940-4d1f-a2f3-9bc3e4046cbb",
 		"name": "NFA - Health checks Export Filters (People)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -9,9 +9,28 @@
 			"name": "actionexport",
 			"event": [
 				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d9d3e9ea-756f-4648-bc45-05db52929a8d",
+						"exec": [
+							"var EXPfilters = pm.environment.get(\"EXPfilters\");",
+							"if (!EXPfilters) {",
+							"   EXPfilters = [\"{containsAll(person.currentCompany.keywords, 'management', 'food')}\", \"{any { isIn(person.function, 'Software Engineering' ); all {isIn(person.currentCompany.state, 'Atlanta'); containsAny(person.currentCompany.keywords, 'management', 'food') }}}\", \"{any { range(person.currentCompany.size, 50, inf); isIn(person.country, 'United States'); has(person.title); containsAny(person.currentCompany.keywords, 'food', 'management') }}\"];",
+							"}",
+							"console.log(\"[ACTION-PREREQUEST] EXPfilters list: \", EXPfilters);",
+							"var EXPcurrentFilter = EXPfilters.shift();",
+							"",
+							"pm.environment.set('EXPfilter', EXPcurrentFilter);",
+							"pm.environment.set('EXPfilters', EXPfilters);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
 					"listen": "test",
 					"script": {
-						"id": "bc46de77-74db-43c5-b738-b469bc7fe217",
+						"id": "692f43dc-8870-4077-8fcb-716b44f69902",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -20,13 +39,16 @@
 							"    var jsonData = pm.response.json();",
 							"",
 							"    var EXPfilter = pm.environment.get(\"EXPfilter\");",
-							"    console.log(\"EXPfilter\",EXPfilter);",
+							"    console.log(\"Current filter value: \", EXPfilter);",
+							"    ",
 							"    if (EXPfilter && EXPfilter.length > 0) {",
-							"    let expJobID = jsonData.jobId;",
-							"    pm.environment.set(\"EXPJOBID\", expJobID);",
-							"    let EXPJOBID= pm.environment.get(\"EXPJOBID\");",
-							"    console.log(EXPJOBID);",
-							"    postman.setNextRequest(\"Download - Job: Exported Data\");",
+							"        let expJobID = jsonData.jobId;",
+							"        pm.environment.set(\"EXPJOBID\", expJobID);",
+							"        ",
+							"        let EXPJOBID= pm.environment.get(\"EXPJOBID\");",
+							"        console.log(\"Export jobID\", EXPJOBID);",
+							"        ",
+							"        postman.setNextRequest(\"Download - Job: Exported Data\");",
 							"   ",
 							"} else {",
 							"   postman.setNextRequest(null);",
@@ -35,24 +57,6 @@
 							"    ",
 							"",
 							"});",
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "6d2fde3e-759a-47e9-8d5d-b9b95db57bf3",
-						"exec": [
-							"var EXPfilters = pm.environment.get(\"EXPfilters\");",
-							"if (!EXPfilters) {",
-							"   EXPfilters = [\"{ range(company.size, 0, 5) }\", \"{ has(company.industry) }\", \"{ isIn(company.country, 'United States') }\"];",
-							"}",
-							"console.log(\"EXPprfil\",EXPfilters);",
-							"var EXPcurrentFilter = EXPfilters.shift();",
-							"pm.environment.set('EXPfilter', EXPcurrentFilter);",
-							"pm.environment.set('EXPfilters', EXPfilters);",
 							""
 						],
 						"type": "text/javascript"
@@ -85,12 +89,12 @@
 					"raw": "{\n\t\"listId\": \"{{EXPRecognizeID}}\",\n\t\"filter\":\"{{EXPfilter}}\",\n\t\"pattern\": \"people\"\n\t\n\t}\n\t\n\n\n\t\t\n"
 				},
 				"url": {
-					"raw": "{{API_URL}}/action/export/",
+					"raw": "{{API_URL}}/batch/export/",
 					"host": [
 						"{{API_URL}}"
 					],
 					"path": [
-						"action",
+						"batch",
 						"export",
 						""
 					]
@@ -108,36 +112,49 @@
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
-							"    ",
-							"    if( pm.response.to.have.status(200)){",
-							"}",
-							"    ",
 							"});",
+							"",
 							"pm.test(\"JSON Checking for structure\", function () {",
 							"    ",
-							"     var jsonData = pm.response.json();",
+							"    var jsonData = pm.response.json();",
 							"    let responselist = jsonData.data;",
-							"    let customerData = jsonData.data[0].data[0].type;",
-							"    pm.environment.set(\"cusData\", customerData);",
+							"    // let fieldsValidation = pm.expect(responselist.length).to.be.above(0);",
 							"    ",
-							"    testCustomData = pm.variables.get(\"cusData\");",
-							"   pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(testCustomData);",
-							"});",
+							"    if(responselist.length > 0){",
+							"        let customerData = jsonData.data[0].data[0].type;",
+							"        pm.environment.set(\"cusData\", customerData);",
+							"        ",
+							"        testCustomData = pm.variables.get(\"cusData\");",
+							"        pm.test(\"Body matches string\", function () {",
+							"            pm.expect(pm.response.text()).to.include(testCustomData);",
+							"        });",
+							"    }",
+							"    else",
+							"    {",
+							"        console.log(\"[type check] 'data' array is empty. 'entityCount' is maybe '0'?\");",
+							"    }",
 							"    ",
 							"});",
+							"",
 							"pm.test(\"JSON Checking for structure\", function () {",
 							"    ",
-							"     var jsonData = pm.response.json();",
+							"    var jsonData = pm.response.json();",
 							"    let responselist = jsonData.data;",
-							"    let customerData = jsonData.data[0].data[0].nodeID;",
-							"    pm.environment.set(\"cusData\", customerData);",
+							"    // let fieldsValidation = pm.expect(responselist.length).to.be.above(0);",
 							"    ",
-							"    testCustomData = pm.variables.get(\"cusData\");",
-							"   pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(testCustomData);",
-							"});",
+							"    if(responselist.length > 0){",
+							"        let customerData = jsonData.data[0].data[0].nodeID;",
+							"        pm.environment.set(\"cusData\", customerData);",
 							"    ",
+							"        testCustomData = pm.variables.get(\"cusData\");",
+							"        pm.test(\"Body matches string\", function () {",
+							"            pm.expect(pm.response.text()).to.include(testCustomData);",
+							"        });",
+							"    }",
+							"    else",
+							"    {",
+							"        console.log(\"[nodeID check] 'data' array is empty. 'entityCount' is maybe '0'?\");",
+							"    }",
 							"    ",
 							"});",
 							"",
@@ -152,9 +169,8 @@
 					"script": {
 						"id": "28afa749-68a5-4893-b16e-9764282c6341",
 						"exec": [
-							" setTimeout(function(){",
-							"          console.log(\"Sleeping for 60 seconds before next request.\");",
-							"  }, 120000);"
+							" console.log(\"Sleeping for 120 seconds before next request.\");",
+							" setTimeout(function(){}, 120000);"
 						],
 						"type": "text/javascript"
 					}
@@ -227,6 +243,219 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Download - Job",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d22be9ef-4e13-4a71-9a2d-8fdb03f2ae5d",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    ",
+							"    var jsonData = pm.response.json();",
+							"    let responselist = jsonData.data;",
+							"    pm.expect(responselist.length, \"'data' array is empty\").to.be.above(0);",
+							"    ",
+							"    let customerData = jsonData.data[0].data[0].type;",
+							"    pm.environment.set(\"cusData\", customerData);",
+							"    ",
+							"    testCustomData = pm.variables.get(\"cusData\");",
+							"   pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(testCustomData);",
+							"});",
+							"    ",
+							"});",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"    ",
+							"     var jsonData = pm.response.json();",
+							"    let responselist = jsonData.data;",
+							"    let customerData = jsonData.data[0].data[0].nodeID;",
+							"    pm.environment.set(\"cusData\", customerData);",
+							"    ",
+							"    testCustomData = pm.variables.get(\"cusData\");",
+							"   pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(testCustomData);",
+							"});",
+							"    ",
+							"    ",
+							"});",
+							"",
+							" postman.setNextRequest(\"actionexport\");",
+							"    "
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "28afa749-68a5-4893-b16e-9764282c6341",
+						"exec": [
+							"//  console.log(\"Sleeping for 120 seconds before next request.\");",
+							"//  setTimeout(function(){}, 120000);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "image/png",
+						"disabled": true
+					},
+					{
+						"key": "cache-control",
+						"type": "text",
+						"value": "no-cache"
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "image/png",
+						"disabled": true
+					},
+					{
+						"key": "apirequestid",
+						"type": "text",
+						"value": "b990cdbc-445e-11e9-a1c9-d55cf6b66c2d",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{API_URL}}/resources/jobs/bca8964c-2fba-44b0-9dc9-2f9dc9689bc4/detail?value=exportedData",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"resources",
+						"jobs",
+						"bca8964c-2fba-44b0-9dc9-2f9dc9689bc4",
+						"detail"
+					],
+					"query": [
+						{
+							"key": "value",
+							"value": "exportedData"
+						},
+						{
+							"key": "page",
+							"value": "4",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Jobs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d22be9ef-4e13-4a71-9a2d-8fdb03f2ae5d",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "28afa749-68a5-4893-b16e-9764282c6341",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "image/png",
+						"disabled": true
+					},
+					{
+						"key": "cache-control",
+						"type": "text",
+						"value": "no-cache"
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "image/png",
+						"disabled": true
+					},
+					{
+						"key": "apirequestid",
+						"type": "text",
+						"value": "b990cdbc-445e-11e9-a1c9-d55cf6b66c2d",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{API_URL}}/resources/jobs",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"resources",
+						"jobs"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "4",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
@@ -253,25 +482,27 @@
 	],
 	"variable": [
 		{
-			"id": "068361a4-62a6-4a71-affb-3acb7ecc1a4a",
+			"id": "9cacd508-0015-40ad-94e8-5e8691310319",
 			"key": "API_URL",
 			"value": "https://api.uat.node-ops.net",
-			"type": "string"
+			"type": "string",
+			"disabled": true
 		},
 		{
-			"id": "db4662f1-2e26-4cf7-8617-f733ee686ca0",
+			"id": "b69bf78a-5383-40aa-8151-dbe2471b56e6",
 			"key": "API_KEY",
 			"value": "sA5GcUebJY2dLRP60VsDj6mG5l3vadli8HAOg47N",
-			"type": "string"
+			"type": "string",
+			"disabled": true
 		},
 		{
-			"id": "afc23dc1-69e4-4c5d-92ec-b571025fec23",
+			"id": "6425f768-5d7e-43cb-b0ae-2b2ddf41db46",
 			"key": "API_KEY_NEW",
 			"value": "tZPw7JeqZw3ueGM683Gw3UFVj6l7tdq48pQtClri",
 			"type": "string"
 		},
 		{
-			"id": "a5412774-e234-4997-9fcf-cac5a1afd421",
+			"id": "b50af31d-b2e8-4b16-b4d7-52524d3cdbee",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"
