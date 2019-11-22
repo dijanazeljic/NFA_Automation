@@ -69,7 +69,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"listName\": \"NewTestList-{{$timestamp}}\",\n    \"filter\":\"{ all { isIn(person.listId, 'b51c6976-23fb-466b-85fb-619f8b791670'); isIn(person.city, 'Dallas');} }\"\n}\n"
+					"raw": "{\n    \"listName\": \"NewTestList-{{$timestamp}}\",\n    \"filter\":\"{ all{isIn(person.listId, '581194ea-fe8b-4869-8ed8-16127b3e1889'); isIn(person.country, 'United States');}}\"\n}\n"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/search",
@@ -423,7 +423,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\":\"VladimirnewlistModel{{$timestamp}}\",\n    \"listId\":\"{{TargetList}}\",\n    \"pattern\":\"companies\",\n    \"purpose\": \"new_attendee\",\n    \"description\": \"same stuff\"\n}\n"
+					"raw": "{\n    \"name\":\"VladimirnewlistModel{{$timestamp}}\",\n    \"listId\":\"{{TargetList}}\",\n    \"pattern\":\"people\",\n    \"purpose\": \"new_attendee\",\n    \"description\": \"same stuff\"\n}\n"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/createmodel",
@@ -563,7 +563,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"modelId\":\"8542f19c-8d22-4120-b7c0-bfcfe62ee577\",\"maxCount\": 100}"
+					"raw": "{\"modelId\":\"{{ModelID}}\",\"maxCount\": 100}"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/recommend",
@@ -603,27 +603,27 @@
 	],
 	"variable": [
 		{
-			"id": "d638b080-3b53-4a2e-b527-dc7bdefe71d0",
+			"id": "810ae85c-1ed6-463b-8b37-549c4cb2a228",
 			"key": "API_URL",
 			"value": "https://es29twi3ed.execute-api.us-west-2.amazonaws.com/qa01",
 			"type": "string",
 			"disabled": true
 		},
 		{
-			"id": "1351c0e7-e2d3-4043-ad31-ff911a8de1cc",
+			"id": "f9470726-459b-4323-8b0e-1f5a4f7ef03b",
 			"key": "API_KEY",
 			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
 			"type": "string",
 			"disabled": true
 		},
 		{
-			"id": "6e668ebe-d1ac-46df-be5f-be4793bb5baf",
+			"id": "cb843f7f-774b-40bc-8606-f47405f855c3",
 			"key": "API_KEY_NEW",
 			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
 			"type": "string"
 		},
 		{
-			"id": "841d38a7-2439-4b10-8d02-e12a1d65b939",
+			"id": "7e0808d6-8e04-4666-b1d5-0cdb60a6d9c5",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"

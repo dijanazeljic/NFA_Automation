@@ -69,7 +69,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"listName\": \"NewTestList-{{$timestamp}}\",\n    \"filter\":\"{ all { isIn(company.listId, '4acbc2ef-a458-4487-aee6-85a1c9f571eb'); isIn(company.city, 'Dallas');}}\"\n}\n"
+					"raw": "{\n    \"listName\": \"NewTestList-{{$timestamp}}\",\n    \"filter\":\"{ all { isIn(company.listId, '66f6c31d-c40f-4687-b9d3-cdfecb1681ba'); isIn(company.state, 'California'); } }\"\n}"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/search",
@@ -563,7 +563,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"modelId\":\"8542f19c-8d22-4120-b7c0-bfcfe62ee577\",\"maxCount\": 100}"
+					"raw": "{\"modelId\":\"{{ModelID}}\",\"maxCount\": 100}"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/recommend",
@@ -603,27 +603,27 @@
 	],
 	"variable": [
 		{
-			"id": "0915f785-48ef-427f-8aa8-482a4615a439",
+			"id": "efe023f1-8022-44e1-89b0-63ca62e44fe2",
 			"key": "API_URL",
 			"value": "https://es29twi3ed.execute-api.us-west-2.amazonaws.com/qa01",
 			"type": "string",
 			"disabled": true
 		},
 		{
-			"id": "5a2850ab-35e9-4da4-98d3-f8e5ac934104",
+			"id": "2098ea33-513a-4771-b30e-41fc67b7b343",
 			"key": "API_KEY",
 			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
 			"type": "string",
 			"disabled": true
 		},
 		{
-			"id": "a3779bbf-e047-412a-af11-6c9b0fe3658a",
+			"id": "6e412af3-8514-4fc4-bb48-a24893d25a4c",
 			"key": "API_KEY_NEW",
 			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
 			"type": "string"
 		},
 		{
-			"id": "b8895667-7ea5-434b-9afc-9c9d86be834c",
+			"id": "4388be94-5efd-464d-9b19-a0e2d0729933",
 			"key": "RID",
 			"value": "{{recognizeJobID}}",
 			"type": "string"
