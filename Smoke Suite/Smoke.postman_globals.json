@@ -1,0 +1,94 @@
+{
+	"id": "553b6ac0-7d3c-4c2e-8973-f738553238af",
+	"values": [
+		{
+			"key": "counter",
+			"value": 52,
+			"enabled": true
+		},
+		{
+			"key": "model_people",
+			"value": "8c2cbcfd-4b8f-4659-8857-f2ae6e1468e1",
+			"enabled": true
+		},
+		{
+			"key": "model_companies",
+			"value": "57cee157-c899-4e6a-b8ae-3984712ecead",
+			"enabled": true
+		},
+		{
+			"key": "comp_list",
+			"value": "0af50936-9386-47d6-8c7f-786614eebe88",
+			"enabled": true
+		},
+		{
+			"key": "AddToList",
+			"value": "e3a23e03-e025-4f07-8c41-eeeb5651fc74",
+			"enabled": true
+		},
+		{
+			"key": "AddToListP",
+			"value": "51befb19-28ca-4374-a21e-a6b8c56de260",
+			"enabled": true
+		},
+		{
+			"key": "GModelID",
+			"value": "45b61e57-ae2f-4599-b2da-52b619bd3b84",
+			"enabled": true
+		},
+		{
+			"key": "API_URL",
+			"value": "https://es29twi3ed.execute-api.us-west-2.amazonaws.com/qa01",
+			"enabled": true
+		},
+		{
+			"key": "API_KEY",
+			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
+			"enabled": true
+		},
+		{
+			"key": "OldListCompanyCPD",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "OldModelCompanyCPD",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "OldListPeopleCPD",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "OldModelPeopleCPD",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "OldModelCompanyNOCPD",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "OldListCompanyNOCPD",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "OldModelPeopleNOCPD",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "OldListPeopleNOCPD",
+			"value": "",
+			"enabled": true
+		}
+	],
+	"name": "Smoke Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2019-11-21T20:32:36.117Z",
+	"_postman_exported_using": "Postman/7.12.0"
+}
