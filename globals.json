@@ -1,5 +1,5 @@
 {
-	"id": "6517ffd7-e7ce-4f73-8407-301f52ca48ea",
+	"id": "3e3f9929-600f-4084-8240-6b75a9349963",
 	"values": [
 		{
 			"key": "counter",
@@ -45,10 +45,15 @@
 			"key": "API_KEY",
 			"value": "0N1nWzh0s5DWfoPRzMCP84B680Dpw0b36Yxm1fB0",
 			"enabled": true
+		},
+		{
+			"key": "AddToListPeopleNoCPD",
+			"value": "6e27d7d6-b441-495c-a0f4-7e4e6b76f13b",
+			"enabled": true
 		}
 	],
-	"name": "My Workspace Globals",
+	"name": "Automated tests - AddToListPeopleNoCPD Globals",
 	"_postman_variable_scope": "globals",
-	"_postman_exported_at": "2019-11-20T20:54:16.058Z",
-	"_postman_exported_using": "Postman/7.11.0"
+	"_postman_exported_at": "2019-11-22T09:51:17.792Z",
+	"_postman_exported_using": "Postman/7.12.0"
 }
