@@ -497,7 +497,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Node-API_Automation-Create_Model-{{$timestamp}}-{{$randomInt}}\",\n    \"listId\": \"{{TargetList}}\",\n    \"pattern\": \"people\",\n    \"purpose\": \"new_customer\",\n    \"description\": \"same stuff\"\n}"
+					"raw": "{\n    \"name\": \"Node-API_Automation-Create_Model-People-no_CPD-{{$timestamp}}-{{$randomInt}}\",\n    \"listId\": \"{{TargetList}}\",\n    \"pattern\": \"people\",\n    \"purpose\": \"new_customer\",\n    \"params\": {\n        \"targetPositiveAccuracy\":0.7,\n        \"targetNegativeAccuracy\":0.2\n\t}\n}"
 				},
 				"url": {
 					"raw": "{{API_URL}}/batch/createmodel",
