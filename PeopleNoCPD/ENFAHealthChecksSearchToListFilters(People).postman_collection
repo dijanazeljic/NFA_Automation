@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "8eed34fa-dcc3-485e-8ecc-79c7a9f94d65",
+		"_postman_id": "67c81dfa-9ae3-4988-bbc9-47a134100ccb",
 		"name": "NFA - Health checks SearchToList Filters (People)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -158,8 +158,9 @@
 							"        console.log( \"Get Jobs - RecognizeTargetList:\", pm.environment.get(\"RecognizeTargetList\"));\r",
 							"       \r",
 							"        let jobEntityCount = jsonData.results.jobs[0].entityCount;\r",
-							"        // pm.expect(jobEntityCount).to.be.above(0);\r",
-							"        pm.expect(jobEntityCount, \"not expected list's 'entityCount'\").to.be.eql(201); //current entityCount for AddToListPeopleNoCPD=6e27d7d6-b441-495c-a0f4-7e4e6b76f13b is '201'\r",
+							"        pm.expect(jobEntityCount).to.be.above(0);\r",
+							"        //current entityCount for AddToListPeopleNoCPD=6e27d7d6-b441-495c-a0f4-7e4e6b76f13b is '201'\r",
+							"        // pm.expect(jobEntityCount, \"not expected list's 'entityCount'\").to.be.eql(201); \r",
 							"       \r",
 							"        let jobDetailsAvailable = jsonData.results.jobs[0].detailsAvailable;\r",
 							"        pm.expect(jobDetailsAvailable).to.not.be.null;\r",
@@ -196,7 +197,7 @@
 							"        \r",
 							"        pm.environment.unset(\"ModelJobID\");\r",
 							"        \r",
-							"        // postman.setNextRequest(\"actionPredict\");\r",
+							"        postman.setNextRequest(\"actionSearch\");\r",
 							"    }\r",
 							"    else if(predictJobID)\r",
 							"    {\r",
@@ -564,7 +565,7 @@
 							"    ",
 							"});",
 							"",
-							"postman.setNextRequest(\"actionSearch\");",
+							"postman.setNextRequest(\"actionCreateModel\");",
 							"    "
 						],
 						"type": "text/javascript"
@@ -656,6 +657,185 @@
 							"value": "4",
 							"disabled": true
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "actionCreateModel",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "01660469-e52e-4256-b6ba-d7e8c422d527",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"JSON Checking for structure\", function () {",
+							"   ",
+							"    var recognizeTargetList = pm.environment.get(\"RecognizeTargetList\");",
+							"    console.log(\"Create model(test) - recognizeTargetList\", recognizeTargetList);",
+							"    ",
+							"    var recommendTargetList = pm.environment.get(\"RecommendTargetList\");",
+							"    console.log(\"Create model(test) - recommendTargetList\", recommendTargetList);",
+							"    ",
+							"    var predictTargetList = pm.environment.get(\"PredictTargetList\");",
+							"    console.log(\"Create model(test) - predictTargetList\", predictTargetList);",
+							"    ",
+							"    var searchTargetListID = pm.environment.get(\"SearchTargetList\");",
+							"    console.log(\"getSearchTargetListID\", searchTargetListID);",
+							"",
+							"    var jsonData = pm.response.json();",
+							"",
+							"    if(recognizeTargetList)",
+							"    {",
+							"        // var jsonData = pm.response.json();",
+							"        let jobID = jsonData.jobId;",
+							"        console.log(\"Create Model(Recognize target list) - jobID\", jobID);",
+							"        pm.environment.set(\"ModelJobID\", jobID);",
+							"        ",
+							"        let exportRecognizeTargetListID = pm.environment.get(\"RecognizeTargetList\");",
+							"        pm.environment.set(\"EXPRecognizeID\", exportRecognizeTargetListID);",
+							"        console.log(\"Create Model - Exported recognize target list:\", pm.environment.get(\"EXPRecognizeID\"));    ",
+							"            ",
+							"        pm.environment.unset(\"RecognizeTargetList\");",
+							"            ",
+							"        postman.setNextRequest(\"ResourcesJobs\");",
+							"    }",
+							"    else if(recommendTargetList)",
+							"    {",
+							"        // var jsonData = pm.response.json();",
+							"        let jobID = jsonData.jobId;",
+							"        console.log(\"Create Model(Recommend target list) - jobID\", jobID);",
+							"        pm.environment.set(\"ModelJobIDR\", jobID);",
+							"        ",
+							"        let exportRecommendID = pm.environment.get(\"RecommendTargetList\");",
+							"        pm.environment.set(\"EXPRecommendID\", exportRecommendID);",
+							"        console.log(\"Create Model - Exported recommend target list:\", pm.environment.get(\"EXPRecommendID\"));",
+							"        ",
+							"        pm.environment.unset(\"RecommendTargetList\");",
+							"        ",
+							"        postman.setNextRequest(\"actionexport\");",
+							"        ",
+							"    }",
+							"    else if(predictTargetList)",
+							"    {",
+							"        // var jsonData = pm.response.json();",
+							"        let jobID = jsonData.jobId;",
+							"        console.log(\"Create Model(Predict target list) - jobID\", jobID);",
+							"        pm.environment.set(\"ModelJobIDP\",jobID);",
+							"        ",
+							"        let exportpredictID = pm.environment.get(\"PredictTargetList\");",
+							"        pm.environment.set(\"EXPPredictID\", exportpredictID);",
+							"        console.log(\"Create Model - Exported predict target list:\", pm.environment.get(\"EXPPredictID\"));",
+							"        ",
+							"        pm.environment.unset(\"PredictTargetList\");",
+							"        ",
+							"        postman.setNextRequest(\"actionRecommend\");",
+							"    }",
+							"    else if(searchTargetListID)",
+							"    {",
+							"        // var jsonData = pm.response.json();",
+							"        let jobID = jsonData.jobId;",
+							"        console.log(\"Create Model(Search target list) - jobID\", jobID);",
+							"        pm.environment.set(\"ModelJobIDP\",jobID);",
+							"        ",
+							"        let exportSearchID = pm.environment.get(\"SearchTargetList\");",
+							"        pm.environment.set(\"EXPSearchID\", exportSearchID);",
+							"        console.log(\"Create Model - Exported search target list:\", pm.environment.get(\"EXPSearchID\"));",
+							"        ",
+							"        pm.environment.unset(\"SearchTargetList\");",
+							"        ",
+							"        postman.setNextRequest(\"actionSearch\");",
+							"    }",
+							"    else{",
+							"        postman.setNextRequest(null);",
+							"    }",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "bf5e35a9-b7e4-4dbf-a38d-7220ae5c29de",
+						"exec": [
+							"console.log(\"***** Create Model - Pre-request Script. START *****\");",
+							"",
+							"var recognizeTargetListID = pm.environment.get(\"RecognizeTargetList\");",
+							"console.log(\"getRecognizeTargetList\", recognizeTargetListID);",
+							"",
+							"var recommendTargetListID = pm.environment.get(\"RecommendTargetList\");",
+							"console.log(\"getRecommendTargetList\", recommendTargetListID);",
+							"",
+							"var predictionTargetListID = pm.environment.get(\"PredictTargetList\");",
+							"console.log(\"getPredictTargetList\", predictionTargetListID);",
+							"",
+							"var searchTargetListID = pm.environment.get(\"SearchTargetList\");",
+							"console.log(\"getSearchTargetListID\", searchTargetListID);",
+							"",
+							"if(recognizeTargetListID)",
+							"{",
+							"    pm.environment.set(\"TargetList\",\"{{RecognizeTargetList}}\");",
+							"    console.log(\"afterSetRecognizeTargetList\", pm.environment.get(\"RecognizeTargetList\"));",
+							"}",
+							"if(recommendTargetListID)",
+							"{",
+							"    pm.environment.set(\"TargetList\",\"{{RecommendTargetList}}\");",
+							"}",
+							"if(predictionTargetListID)",
+							"{",
+							"    pm.environment.set(\"TargetList\",\"{{PredictTargetList}}\");",
+							"}",
+							"if(searchTargetListID)",
+							"{",
+							"    pm.environment.set(\"TargetList\",\"{{SearchTargetList}}\");",
+							"}",
+							"",
+							"console.log(\"***** Create Model - Pre-request Script. END *****\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman."
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Node-API_Automation-Create_Model-SearchToList-People-no_CPD-{{$timestamp}}-{{$randomInt}}\",\n    \"listId\": \"{{TargetList}}\",\n    \"pattern\": \"people\",\n    \"purpose\": \"new_customer\",\n    \"params\": {\n        \"targetPositiveAccuracy\":0.7,\n        \"targetNegativeAccuracy\":0.2\n\t}\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/batch/createmodel",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"batch",
+						"createmodel"
 					]
 				}
 			},
