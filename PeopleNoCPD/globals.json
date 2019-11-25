@@ -48,12 +48,12 @@
 		},
 		{
 			"key": "AddToListPeopleNoCPD",
-			"value": "6e27d7d6-b441-495c-a0f4-7e4e6b76f13b",
+			"value": "c3cd4210-a57a-4a6d-adaf-f26a1d062806",
 			"enabled": true
 		}
 	],
-	"name": "Automated tests - AddToListPeopleNoCPD Globals",
+	"name": "Automated tests - SearchToListPeopleNoCPD Globals",
 	"_postman_variable_scope": "globals",
-	"_postman_exported_at": "2019-11-22T09:51:17.792Z",
+	"_postman_exported_at": "2019-11-25T10:18:18.288Z",
 	"_postman_exported_using": "Postman/7.12.0"
 }
